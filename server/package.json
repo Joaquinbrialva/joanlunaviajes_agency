@@ -1,0 +1,29 @@
+{
+	"name": "joanluna-agency",
+	"version": "1.0.0",
+	"description": "Backend API para JoanlunaViajes - gestión de agencia de viajes",
+	"license": "MIT",
+	"author": "Joaquin Alvarez",
+	"type": "commonjs",
+	"main": "src/index.js",
+	"scripts": {
+		"dev": "nodemon src/index.js",
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"migrations:generate": "sequelize-cli migration:generate --name",
+		"migrations:run": "sequelize-cli db:migrate",
+		"migrations:revert": "sequelize-cli db:migrate:undo",
+		"migrations:delete": "sequelize-cli db:migrate:undo:all"
+	},
+	"devDependencies": {
+		"morgan": "^1.10.1",
+		"nodemon": "^3.1.10",
+		"sequelize-cli": "^6.6.3"
+	},
+	"dependencies": {
+		"@hapi/boom": "^10.0.1",
+		"dotenv": "^17.2.1",
+		"express": "^5.1.0",
+		"pg": "^8.16.3",
+		"sequelize": "^6.37.7"
+	}
+}
