@@ -1,9 +1,13 @@
 const boom = require('@hapi/boom');
-const { models } = require('../db/connection/connection');
-const { ERROR_MESSAGES } = require('../utils/constants');
+const { models } = require('../../db/connection/connection');
+const { ERROR_MESSAGES } = require('../utils/messages');
 
 class UserService {
 	async create(data) {
+		const user = await this.findByEmail(data.email);
+		if (user) {
+			throw boom.badRequest(ERROR_MESSAGES.EMAIL_ALREADY_EXISTS);
+		}
 		const newUser = await models.User.create(data);
 		return newUser;
 	}
@@ -11,7 +15,7 @@ class UserService {
 	async findById(id) {
 		const user = await models.User.findByPk(id);
 		if (user === null) {
-			throw boom.notFound(ERROR_MESSAGES.NOT_FOUND);
+			throw boom.notFound(ERROR_MESSAGES.RESOURCE_NOT_FOUND);
 		} else {
 			return user;
 		}
@@ -19,13 +23,12 @@ class UserService {
 
 	async findByEmail(email) {
 		const user = await models.User.findOne({
-			where: { email: email },
+			where: { email },
 		});
 		if (user === null) {
-			throw boom.notFound(ERROR_MESSAGES.USER_NOT_FOUND);
-		} else {
-			return user;
+			return null;
 		}
+		return user;
 	}
 
 	async update(id, data) {

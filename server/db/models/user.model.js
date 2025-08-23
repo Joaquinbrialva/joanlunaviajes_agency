@@ -1,4 +1,4 @@
-const { DataTypes, Sequelize, Model } = require('sequelize');
+const { DataTypes, Model } = require('sequelize');
 
 const USER_TABLE = 'users';
 
@@ -10,6 +10,10 @@ const userSchema = {
 		primaryKey: true,
 	},
 	name: {
+		type: DataTypes.STRING,
+		allowNull: false,
+	},
+	lastName: {
 		type: DataTypes.STRING,
 		allowNull: false,
 	},
@@ -33,6 +37,26 @@ const userSchema = {
 	city: {
 		type: DataTypes.STRING,
 		allowNull: true,
+	},
+	isActive: {
+		type: DataTypes.BOOLEAN,
+		allowNull: false,
+		defaultValue: true,
+	},
+	role: {
+		type: DataTypes.ENUM('user', 'admin', 'agent'),
+		allowNull: false,
+		defaultValue: 'user',
+	},
+	createdAt: {
+		type: DataTypes.DATE,
+		allowNull: false,
+		defaultValue: DataTypes.NOW,
+	},
+	updatedAt: {
+		type: DataTypes.DATE,
+		allowNull: false,
+		defaultValue: DataTypes.NOW,
 	},
 };
 
