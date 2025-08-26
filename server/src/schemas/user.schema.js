@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const { PASSWORD_MESSAGES, VALIDATION_MESSAGES } = require('../utils/messages');
 
-const id = Joi.number().integer().positive();
+const id = Joi.string().uuid();
 const name = Joi.string().min(2).max(50).trim();
 const lastName = Joi.string().min(2).max(50).trim();
 const email = Joi.string().email().trim().lowercase();
@@ -10,9 +10,9 @@ const password = Joi.string()
 	.message(PASSWORD_MESSAGES.PASSWORD_MIN_LENGTH)
 	.max(20)
 	.message(PASSWORD_MESSAGES.PASSWORD_MAX_LENGTH);
-const phone = Joi.string();
-const country = Joi.string().min(2).max(100).trim();
-const city = Joi.string().min(2).max(100).trim();
+const phone = Joi.string().allow(null);
+const country = Joi.string().min(2).max(100).trim().allow(null);
+const city = Joi.string().min(2).max(100).trim().allow(null);
 
 const createUserSchema = Joi.object({
 	name: name.required(),
@@ -23,6 +23,8 @@ const createUserSchema = Joi.object({
 		'any.empty': VALIDATION_MESSAGES.PHONE_REQUIRED,
 		'string.empty': VALIDATION_MESSAGES.PHONE_REQUIRED,
 	}),
+	country,
+	city
 });
 
 const updateUserSchema = Joi.object({

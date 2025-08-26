@@ -23,6 +23,7 @@ const ERROR_MESSAGES = {
 const AUTH_MESSAGES = {
 	// Mensajes relacionados con autenticación y autorización
 	INVALID_CREDENTIALS: 'Credenciales inválidas.',
+	LOGGED_IN: 'Sesión iniciada',
 	UNAUTHORIZED: 'No autorizado.',
 	SESSION_EXPIRED: 'La sesión ha expirado. Por favor, inicia sesión de nuevo.',
 	FORBIDDEN: 'Acceso prohibido. No tienes permisos para realizar esta acción.',

@@ -1,12 +1,13 @@
 const { DataTypes, Model } = require('sequelize');
+const bcrypt = require('bcrypt');
 
 const USER_TABLE = 'users';
 
 const userSchema = {
 	id: {
-		type: DataTypes.INTEGER,
+		type: DataTypes.UUID,
+		defaultValue: DataTypes.UUIDV4,
 		allowNull: false,
-		autoIncrement: true,
 		primaryKey: true,
 	},
 	name: {
@@ -41,7 +42,7 @@ const userSchema = {
 	isActive: {
 		type: DataTypes.BOOLEAN,
 		allowNull: false,
-		defaultValue: true,
+		defaultValue: false,
 	},
 	role: {
 		type: DataTypes.ENUM('user', 'admin', 'agent'),
@@ -68,6 +69,12 @@ class User extends Model {
 			sequelize,
 			tableName: USER_TABLE,
 			modelName: 'User',
+			hooks: {
+				beforeCreate: async (user) => {
+					const hashedPassword = await bcrypt.hash(user.password, 10);
+					user.password = hashedPassword;
+				},
+			},
 		};
 	}
 }
