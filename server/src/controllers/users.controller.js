@@ -21,13 +21,8 @@ const registerUser = async (req, res, next) => {
 const logIn = async (req, res, next) => {
 	try {
 		const { email, password } = req.body;
-		const userEmail = await service.findByEmail(email);
-		console.log(userEmail.password);
-		const passwordMatch = await bcrypt.compare(password, userEmail.password);
-		console.log(passwordMatch);
-		if (!passwordMatch) {
-			return badRequest(res, ERROR_MESSAGES.DATA_VALIDATION_FAILED);
-		}
+		const response = await service.logIn({ email, password });
+
 		return success(res, AUTH_MESSAGES.LOGGED_IN, userEmail.id);
 	} catch (error) {
 		next(error);
