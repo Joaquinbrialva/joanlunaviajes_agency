@@ -1,10 +1,13 @@
+const { config } = require('../../config/config');
 const boom = require('@hapi/boom');
 const { models } = require('../../db/connection/connection');
 const { ERROR_MESSAGES } = require('../utils/messages');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 class UserService {
 	async signToken({ id, role }) {
-		const secret = process.env.JWT_SECRET;
+		const secret = config.jwt_secret;
 		const token = jwt.sign({ sub: id, role }, secret, {
 			expiresIn: '15m',
 		});

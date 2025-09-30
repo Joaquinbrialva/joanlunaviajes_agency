@@ -4,17 +4,17 @@ const id = Joi.string().uuid();
 const title = Joi.string().max(20);
 const origin = Joi.string();
 const destination = Joi.string();
-const departureDate = Joi.string();
-const returnDate = Joi.string();
-const photos = Joi.string();
+const departureDate = Joi.date();
+const returnDate = Joi.date();
+const photos = Joi.array().items(Joi.string());
 const notes = Joi.string().max(50);
 const userId = Joi.string();
 
 const createTripSchema = Joi.object({
-	id: id.required(),
+	title: title.required(),
 	origin: origin.required(),
 	destination: destination.required(),
-	departureDate,
+	departureDate: departureDate.required(),
 	returnDate,
 	photos: photos.required(),
 	notes,
@@ -22,14 +22,14 @@ const createTripSchema = Joi.object({
 });
 
 const updateTripSchema = Joi.object({
-	title: title.required(),
-	origin: origin.required(),
-	destination: destination.required(),
+	title: title.optional(),
+	origin: origin.optional(),
+	destination: destination.optional(),
 	departureDate,
 	returnDate,
-	photos: photos.required(),
+	photos: photos.optional(),
 	notes,
-	userId: userId.required(),
+	userId: userId.optional(),
 });
 
 const getTripSchema = Joi.object({

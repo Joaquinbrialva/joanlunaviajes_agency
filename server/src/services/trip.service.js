@@ -1,6 +1,6 @@
 const { models } = require('../../db/connection/connection');
 const boom = require('@hapi/boom');
-const { ERROR_MESSAGES } = require('../utils/messages');
+const { ERROR_MESSAGES, SUCCESS_MESSAGES } = require('../utils/messages');
 const { Op } = require('sequelize');
 
 class TripService {
@@ -11,6 +11,7 @@ class TripService {
 
 	async findAll() {
 		const trips = await models.Trip.findAll();
+		if (trips.length === 0) throw boom.notFound(ERROR_MESSAGES.NO_TRIPS_FOUND);
 		return trips;
 	}
 

@@ -12,6 +12,16 @@ const getAllTrips = async (req, res, next) => {
 	}
 };
 
+const getTripById = async (req, res, next) => {
+	try {
+		const { id } = req.params;
+		const trip = await service.findById(id);
+		return success(res, SUCCESS_MESSAGES.DATA_FETCHED, trip);
+	} catch (error) {
+		next(error);
+	}
+};
+
 const createTrip = async (req, res, next) => {
 	try {
 		const { body } = req;
@@ -60,4 +70,4 @@ const deleteTrip = async (req, res, next) => {
 	}
 };
 
-module.exports = { getAllTrips, createTrip, updateTrip, deleteTrip };
+module.exports = { getAllTrips, getTripById, createTrip, updateTrip, deleteTrip };

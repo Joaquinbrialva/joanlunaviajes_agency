@@ -18,6 +18,7 @@ const ERROR_MESSAGES = {
 	DATA_VALIDATION_FAILED: 'Los datos proporcionados no son válidos.',
 	INVALID_PARAMETERS: 'Los parámetros de la petición son inválidos.',
 	PERMISSION_DENIED: 'Permiso denegado.',
+	NO_TRIPS_FOUND: 'No se encontraron viajes disponibles.',
 };
 
 const AUTH_MESSAGES = {

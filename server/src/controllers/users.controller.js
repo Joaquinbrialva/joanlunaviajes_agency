@@ -1,12 +1,12 @@
+require('dotenv').config;
 const UserService = require('../services/user.service');
 const {
 	SUCCESS_MESSAGES,
-	AUTH_MESSAGES,
-	ERROR_MESSAGES,
+	AUTH_MESSAGES
 } = require('../utils/messages');
-const { created, success, badRequest } = require('../utils/response');
+const { created, success } = require('../utils/response');
 const service = new UserService();
-const bcrypt = require('bcrypt');
+
 
 const registerUser = async (req, res, next) => {
 	try {
@@ -22,8 +22,7 @@ const logIn = async (req, res, next) => {
 	try {
 		const { email, password } = req.body;
 		const response = await service.logIn({ email, password });
-
-		return success(res, AUTH_MESSAGES.LOGGED_IN, userEmail.id);
+		return success(res, AUTH_MESSAGES.LOGGED_IN, response);
 	} catch (error) {
 		next(error);
 	}
