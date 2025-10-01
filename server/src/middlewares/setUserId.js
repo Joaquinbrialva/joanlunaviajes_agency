@@ -1,10 +1,17 @@
-const setUserId = (req, res, next) => {
-	// 1. Extraer el ID del usuario autenticado (del payload del token)
-	// 2. Asignar ese ID a req.body.userId
-	// 3. Llamar a next()
-	const userId = req.user.sub;
-	req.body.userId = userId;
-	next();
-};
+const boom = require('@hapi/boom'); // Necesitas importar boom aquí o usarlo de otra forma
+
+function setUserId(req, res, next) {
+	if (!req.user || !req.user.sub) {
+		return next(boom.unauthorized('Token inválido o usuario no adjunto.'));
+	}
+
+	try {
+		const userId = req.user.sub;
+		req.body.userId = userId;
+		next();
+	} catch (error) {
+		next(error);
+	}
+}
 
 module.exports = setUserId;

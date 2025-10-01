@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const passport = require('../authentication/index');
 const {
 	getAllTrips,
 	getTripById,
@@ -7,6 +6,7 @@ const {
 	updateTrip,
 	deleteTrip,
 } = require('../controllers/trips.controller');
+const { checkJwt } = require('../middlewares/auth');
 const setUserId = require('../middlewares/setUserId');
 const { validatorHandler } = require('../middlewares/validator.handler');
 const {
@@ -19,7 +19,7 @@ router.get('/', getAllTrips);
 router.get('/:id', validatorHandler(getTripSchema, 'params'), getTripById);
 router.post(
 	'/',
-	passport.authenticate('jwt', { session: false }),
+	checkJwt(),
 	setUserId,
 	validatorHandler(createTripSchema, 'body'),
 	createTrip

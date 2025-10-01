@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 module.exports = {
-	'config': './config/config.js',
+	config: './config/env.configs.js',
 	'models-path': './db/models',
 	'seeders-path': './db/seeders',
 	'migrations-path': './db/migrations',
