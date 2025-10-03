@@ -61,7 +61,13 @@ const tripsSchema = {
 };
 
 class Trip extends Model {
-	static associate() {}
+	static associate(models) {
+		// Un viaje pertenece a un usuario
+		this.belongsTo(models.User, {
+			as: 'user',
+			foreignKey: 'userId'
+		});
+	}
 
 	static config(sequelize) {
 		return {

@@ -1,12 +1,28 @@
 const TripService = require('../services/trip.service');
 const { SUCCESS_MESSAGES } = require('../utils/messages');
-const { success } = require('../utils/response');
+const { success, created } = require('../utils/response');
 const service = new TripService();
 
 const getAllTrips = async (req, res, next) => {
 	try {
-		const trips = await service.findAll();
-		return success(res, SUCCESS_MESSAGES.DATA_FETCHED, trips);
+		const { page = 1, limit = 10, includeUser = true, origin, destination } = req.query;
+		const options = { 
+			page, 
+			limit, 
+			includeUser: includeUser === 'true',
+			filters: {}
+		};
+		
+		// Aplicar filtros si existen
+		if (origin) options.filters.origin = origin;
+		if (destination) options.filters.destination = destination;
+		
+		const result = await service.findAll(options);
+		return success(res, SUCCESS_MESSAGES.DATA_FETCHED, result.data, result.total, {
+			page: result.page,
+			limit: result.limit,
+			totalPages: result.totalPages
+		});
 	} catch (error) {
 		next(error);
 	}
@@ -14,8 +30,9 @@ const getAllTrips = async (req, res, next) => {
 
 const getTripById = async (req, res, next) => {
 	try {
-		const { id } = req.params;
-		const trip = await service.findById(id);
+		const { tripId } = req.params;
+		const { includeUser = true } = req.query;
+		const trip = await service.findById(tripId, includeUser === 'true');
 		return success(res, SUCCESS_MESSAGES.DATA_FETCHED, trip);
 	} catch (error) {
 		next(error);
@@ -26,7 +43,7 @@ const createTrip = async (req, res, next) => {
 	try {
 		const { body } = req;
 		const newTrip = await service.create(body);
-		return success(res, SUCCESS_MESSAGES.RESOURCE_CREATED, newTrip);
+		return created(res, SUCCESS_MESSAGES.RESOURCE_CREATED, newTrip);
 	} catch (error) {
 		next(error);
 	}
@@ -35,6 +52,7 @@ const createTrip = async (req, res, next) => {
 const updateTrip = async (req, res, next) => {
 	try {
 		const { id } = req.params;
+		const user = req.user; // Cambio: pasar el objeto user completo en lugar de solo userId
 		const {
 			title,
 			origin,
@@ -53,7 +71,7 @@ const updateTrip = async (req, res, next) => {
 			photos,
 			notes,
 		};
-		const updatedTrip = await service.update(id, newData);
+		const updatedTrip = await service.update(id, newData, user);
 		return success(res, SUCCESS_MESSAGES.RESOURCE_UPDATED, updatedTrip);
 	} catch (error) {
 		next(error);
@@ -63,11 +81,18 @@ const updateTrip = async (req, res, next) => {
 const deleteTrip = async (req, res, next) => {
 	try {
 		const { id } = req.params;
-		await service.delete(id);
-		return success(res, SUCCESS_MESSAGES.RESOURCE_DELETED, id);
+		const user = req.user; // Cambio: pasar el objeto user completo en lugar de solo userId
+		await service.delete(id, user);
+		return success(res, SUCCESS_MESSAGES.RESOURCE_DELETED, { id });
 	} catch (error) {
 		next(error);
 	}
 };
 
-module.exports = { getAllTrips, getTripById, createTrip, updateTrip, deleteTrip };
+module.exports = {
+	getAllTrips,
+	getTripById,
+	createTrip,
+	updateTrip,
+	deleteTrip,
+};

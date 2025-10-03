@@ -25,6 +25,11 @@ const requestSchema = {
 		type: DataTypes.DATE,
 		allowNull: true,
 	},
+	isRoundTrip: {
+		type: DataTypes.BOOLEAN,
+		defaultValue: false,
+		allowNull: false
+	},
 	passengers: {
 		type: DataTypes.INTEGER,
 		allowNull: false,
@@ -58,8 +63,10 @@ const requestSchema = {
 
 class Request extends Model {
 	static associate(models) {
+		// Una solicitud pertenece a un usuario
 		this.belongsTo(models.User, {
 			as: 'user',
+			foreignKey: 'userId'
 		});
 	}
 	static config(sequelize) {

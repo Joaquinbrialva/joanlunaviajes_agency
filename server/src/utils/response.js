@@ -12,10 +12,17 @@ const {
  */
 
 // Respuesta exitosa
-const sendResponse = (res, statusCode, message, data = null) => {
+const sendResponse = (
+	res,
+	statusCode,
+	message,
+	data = null, // ⬅️ CUARTO argumento (¡Aquí va la data!)
+	total = undefined // ⬅️ QUINTO argumento (¡Aquí va el conteo!)
+) => {
 	return res.status(statusCode).json({
 		success: true,
-		message,
+		message, // Incluye 'total' solo si está definido (perfecto)
+		...(total !== undefined && { total }),
 		data,
 	});
 };
@@ -24,9 +31,11 @@ const sendResponse = (res, statusCode, message, data = null) => {
 const success = (
 	res,
 	message = SUCCESS_MESSAGES.OPERATION_SUCCESSFUL,
-	data = null
+	data = null,
+	total // El conteo total (opcional)
 ) => {
-	return sendResponse(res, 200, message, data);
+	// ⬅️ CORRECCIÓN: Pasamos 'total' directamente, sin el operador spread
+	return sendResponse(res, 200, message, data, total);
 };
 
 // Respuesta de creación (201)

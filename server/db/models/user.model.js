@@ -62,7 +62,19 @@ const userSchema = {
 };
 
 class User extends Model {
-	static associate(models) {}
+	static associate(models) {
+		// Un usuario puede tener muchos viajes
+		this.hasMany(models.Trip, {
+			as: 'trips',
+			foreignKey: 'userId'
+		});
+		
+		// Un usuario puede tener muchas solicitudes
+		this.hasMany(models.Request, {
+			as: 'requests',
+			foreignKey: 'userId'
+		});
+	}
 
 	static config(sequelize) {
 		return {

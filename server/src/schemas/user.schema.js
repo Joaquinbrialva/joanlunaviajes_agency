@@ -13,6 +13,7 @@ const password = Joi.string()
 const phone = Joi.string().allow(null);
 const country = Joi.string().min(2).max(100).trim().allow(null);
 const city = Joi.string().min(2).max(100).trim().allow(null);
+const role = Joi.string().valid('admin', 'agent', 'user');
 
 const createUserSchema = Joi.object({
 	name: name.required(),
@@ -24,7 +25,8 @@ const createUserSchema = Joi.object({
 		'string.empty': VALIDATION_MESSAGES.PHONE_REQUIRED,
 	}),
 	country,
-	city
+	city,
+	role
 });
 
 const updateUserSchema = Joi.object({
@@ -35,6 +37,7 @@ const updateUserSchema = Joi.object({
 	phone,
 	country,
 	city,
+	role
 });
 
 const getUserSchema = Joi.object({

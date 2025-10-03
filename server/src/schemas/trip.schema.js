@@ -7,7 +7,7 @@ const destination = Joi.string();
 const departureDate = Joi.date();
 const returnDate = Joi.date();
 const photos = Joi.array().items(Joi.string());
-const notes = Joi.string().max(50);
+const notes = Joi.string().max(100);
 const userId = Joi.string();
 
 const createTripSchema = Joi.object({

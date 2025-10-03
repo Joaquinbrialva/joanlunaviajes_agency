@@ -19,6 +19,7 @@ const ERROR_MESSAGES = {
 	INVALID_PARAMETERS: 'Los parámetros de la petición son inválidos.',
 	PERMISSION_DENIED: 'Permiso denegado.',
 	NO_TRIPS_FOUND: 'No se encontraron viajes disponibles.',
+	NO_REQUESTS_FOUND: 'No se encontraron solicitudes'
 };
 
 const AUTH_MESSAGES = {

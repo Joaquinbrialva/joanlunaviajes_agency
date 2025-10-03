@@ -1,11 +1,32 @@
 const { config } = require('../../config/config');
 const boom = require('@hapi/boom');
 const { models } = require('../../db/connection/connection');
-const { ERROR_MESSAGES } = require('../utils/messages');
+const { ERROR_MESSAGES, AUTH_MESSAGES } = require('../utils/messages');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+// Constantes para roles
+const ROLES = {
+	ADMIN: 'admin',
+	AGENT: 'agent',
+	USER: 'user'
+};
+
 class UserService {
+	// Configuración común para excluir password
+	static getDefaultAttributes() {
+		return {
+			exclude: ['password']
+		};
+	}
+
+	// Método privado para verificar autorización
+	#checkAuthorization(user, targetUserId) {
+		const isOverrideRole = user.role === ROLES.ADMIN || user.role === ROLES.AGENT;
+		const isOwner = user.sub === targetUserId;
+		return isOverrideRole || isOwner;
+	}
+	
 	async signToken({ id, role }) {
 		const secret = config.jwt_secret;
 		const token = jwt.sign({ sub: id, role }, secret, {
@@ -15,7 +36,7 @@ class UserService {
 	}
 
 	async logIn(data) {
-		const user = await this.findByEmail(data.email);
+		const user = await this.findByEmailWithPassword(data.email);
 		if (!user || !(await bcrypt.compare(data.password, user.password))) {
 			throw boom.unauthorized(ERROR_MESSAGES.DATA_VALIDATION_FAILED);
 		}
@@ -37,39 +58,75 @@ class UserService {
 		return newUser;
 	}
 
-	async findById(id) {
-		const user = await models.User.findByPk(id);
+	async findById(id, includePassword = false) {
+		const attributes = includePassword ? {} : UserService.getDefaultAttributes();
+		
+		const user = await models.User.findByPk(id, { attributes });
+		
 		if (user === null) {
-			throw boom.notFound(ERROR_MESSAGES.RESOURCE_NOT_FOUND);
-		} else {
-			return user;
+			throw boom.notFound(ERROR_MESSAGES.USER_NOT_FOUND);
 		}
-	}
-
-	async findByEmail(email) {
-		const user = await models.User.findOne({
-			where: { email },
-		});
-		if (user === null) {
-			return null;
-		}
+		
 		return user;
 	}
 
-	async findAll() {
-		const users = await models.User.findAll();
-		return users;
+	async findByEmail(email, includePassword = false) {
+		const attributes = includePassword ? {} : UserService.getDefaultAttributes();
+		
+		const user = await models.User.findOne({
+			where: { email },
+			attributes
+		});
+		
+		return user;
 	}
 
-	async update(id, data) {
-		const user = await this.findById(id);
-		const updatedUser = await user.update(data);
+	// Método especial para autenticación que incluye el password
+	async findByEmailWithPassword(email) {
+		return this.findByEmail(email, true);
+	}
+
+	async findAll(options = {}) {
+		const { page = 1, limit = 10 } = options;
+		
+		const queryOptions = {
+			attributes: UserService.getDefaultAttributes(),
+			limit: parseInt(limit),
+			offset: (parseInt(page) - 1) * parseInt(limit),
+		};
+
+		const { count, rows } = await models.User.findAndCountAll(queryOptions);
+
+		return { 
+			data: rows, 
+			total: count,
+			page: parseInt(page),
+			limit: parseInt(limit),
+			totalPages: Math.ceil(count / parseInt(limit))
+		};
+	}
+
+	async update(id, data, user = null) {
+		const targetUser = await this.findById(id);
+		
+		// Si se proporciona un usuario, verificar autorización
+		if (user && !this.#checkAuthorization(user, id)) {
+			throw boom.forbidden(AUTH_MESSAGES.FORBIDDEN);
+		}
+		
+		const updatedUser = await targetUser.update(data);
 		return updatedUser;
 	}
 
-	async delete(id) {
-		const user = await this.findById(id);
-		await user.destroy();
+	async delete(id, user = null) {
+		const targetUser = await this.findById(id);
+		
+		// Si se proporciona un usuario, verificar autorización
+		if (user && !this.#checkAuthorization(user, id)) {
+			throw boom.forbidden(AUTH_MESSAGES.FORBIDDEN);
+		}
+		
+		await targetUser.destroy();
 		return { id };
 	}
 }

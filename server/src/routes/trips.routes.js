@@ -16,7 +16,7 @@ const {
 } = require('../schemas/trip.schema');
 
 router.get('/', getAllTrips);
-router.get('/:id', validatorHandler(getTripSchema, 'params'), getTripById);
+router.get('/:tripId', validatorHandler(getTripSchema, 'params'), getTripById);
 router.post(
 	'/',
 	checkJwt(),
@@ -25,11 +25,17 @@ router.post(
 	createTrip
 );
 router.patch(
-	'/:id',
+	'/update/:id',
+	checkJwt(),
 	validatorHandler(getTripSchema, 'params'),
 	validatorHandler(updateTripSchema, 'body'),
 	updateTrip
 );
-router.delete('/:id', validatorHandler(getTripSchema, 'params'), deleteTrip);
+router.delete(
+	'/:id',
+	checkJwt(),
+	validatorHandler(getTripSchema, 'params'),
+	deleteTrip
+);
 
 module.exports = router;

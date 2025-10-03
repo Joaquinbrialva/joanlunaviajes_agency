@@ -1,4 +1,5 @@
 const { ValidationError } = require('sequelize');
+const { error } = require('../utils/response');
 
 function logErrors(err, req, res, next) {
 	// Aquí se podría guardar el error en un log externo como Sentry
@@ -8,11 +9,7 @@ function logErrors(err, req, res, next) {
 
 function ormErrorHandler(err, req, res, next) {
 	if (err instanceof ValidationError) {
-		res.status(409).json({
-			statusCode: 409,
-			message: err.name,
-			errors: err.errors,
-		});
+		return error(res, 409, err.name, err.errors);
 	} else {
 		next(err);
 	}
@@ -21,17 +18,14 @@ function ormErrorHandler(err, req, res, next) {
 function boomErrorHandler(err, req, res, next) {
 	if (err.isBoom) {
 		const { output } = err;
-		res.status(output.statusCode).json(output.payload);
+		return error(res, output.statusCode, output.payload);
 	} else {
 		next(err);
 	}
 }
 
 function errorHandler(err, req, res, next) {
-	res.status(500).json({
-		message: err.message,
-		stack: err.stack,
-	});
+	return error(res, 500, err.message, err.stack);
 }
 
 module.exports = {
