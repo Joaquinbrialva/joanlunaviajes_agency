@@ -1,12 +1,13 @@
 const { models } = require('../../db/connection/connection');
 const boom = require('@hapi/boom');
 const { ERROR_MESSAGES, AUTH_MESSAGES } = require('../utils/messages');
+const { Op } = require('sequelize');
 
 // Constantes para roles
 const ROLES = {
 	ADMIN: 'admin',
 	AGENT: 'agent',
-	USER: 'user'
+	USER: 'user',
 };
 
 class RequestService {
@@ -24,42 +25,58 @@ class RequestService {
 
 	// Método privado para verificar autorización
 	#checkAuthorization(user, resourceUserId) {
-		const isOverrideRole = user.role === ROLES.ADMIN || user.role === ROLES.AGENT;
+		const isOverrideRole =
+			user.role === ROLES.ADMIN || user.role === ROLES.AGENT;
 		const isOwner = user.sub === resourceUserId;
 		return isOverrideRole || isOwner;
 	}
-	
+
 	async create(data) {
 		const request = await models.Request.create(data);
 		return request;
 	}
 
 	async findAll(options = {}) {
-		const { 
-			page = 1, 
-			limit = 10, 
-			includeUser = true, 
+		const {
+			page = 1,
+			limit = 10,
+			includeUser = true,
 			filters = {},
-			user = null 
+			user = null,
 		} = options;
-		
-		// Construir condiciones de filtrado
+
+		// 1. Inicializar WHERE con una copia de los filtros de búsqueda
 		const where = { ...filters };
-		
-		// Si se proporciona un usuario, aplicar filtro por userId
-		// Esto permite tanto "mis requests" como filtros específicos
+
+		// 2. Lógica para transformar filtros de texto a búsqueda flexible (Op.iLike)
+		// Definimos qué campos deben ser buscados de forma flexible
+		const flexibleSearchFields = ['origin', 'destination', 'notes']; // Añade más campos si lo necesitas
+
+		for (const key of flexibleSearchFields) {
+			// Chequeamos si el filtro existe en los parámetros
+			if (filters[key]) {
+				const searchTerm = filters[key];
+
+				// Reemplazamos el valor de la clave con la estructura de Op.iLike
+				where[key] = {
+					[Op.iLike]: `%${searchTerm}%`, // ⬅️ Búsqueda parcial e insensible a mayúsculas
+				};
+			}
+		}
+
+		// 3. Aplicar filtro de autorización por userId (si existe)
 		if (user && user.sub) {
 			where.userId = user.sub;
 		}
 
-		// Configurar opciones de consulta
+		// Configurar opciones de consulta (Paginación)
 		const queryOptions = {
 			where,
 			limit: parseInt(limit),
 			offset: (parseInt(page) - 1) * parseInt(limit),
 		};
 
-		// Incluir usuario solo si es necesario
+		// Incluir usuario
 		if (includeUser) {
 			queryOptions.include = RequestService.getDefaultIncludeOptions();
 		}
@@ -68,12 +85,32 @@ class RequestService {
 
 		if (count === 0) throw boom.notFound(ERROR_MESSAGES.NO_REQUESTS_FOUND);
 
-		return { 
-			data: rows, 
+		// Calcular metadatos de paginación
+		const totalPages = Math.ceil(count / parseInt(limit));
+		const currentPage = parseInt(page);
+
+		// Si la página solicitada no existe, redirigir automáticamente a página 1
+		if (currentPage > totalPages && totalPages > 0) {
+			// Crear nuevas opciones con página 1
+			const correctedOptions = { ...options, page: 1 };
+			const correctedResult = await this.findAll(correctedOptions);
+			
+			// Agregar metadatos de redirección para transparencia
+			return {
+				...correctedResult,
+				requestedPage: currentPage,  // Página que pidió originalmente
+				correctedToPage: 1,          // Página a la que se redirigió
+				wasRedirected: true          // Flag para indicar redirección
+			};
+		}
+
+		// Devolver la respuesta paginada y estructurada
+		return {
+			data: rows,
 			total: count,
-			page: parseInt(page),
+			page: currentPage,
 			limit: parseInt(limit),
-			totalPages: Math.ceil(count / parseInt(limit))
+			totalPages,
 		};
 	}
 

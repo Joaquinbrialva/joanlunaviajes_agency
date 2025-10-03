@@ -5,25 +5,44 @@ const service = new RequestService();
 
 const getAllRequests = async (req, res, next) => {
 	try {
-		const { page = 1, limit = 10, includeUser, origin, destination } = req.query;
-		const options = { 
-			page, 
-			limit, 
-			includeUser: includeUser === 'false' ? false : true, // Por defecto true, solo false si se especifica explícitamente
-			filters: {}
+		// 1. Extraer parámetros básicos
+		const { page = 1, limit = 10, includeUser } = req.query;
+
+		// 2. Definir campos que pueden ser filtros
+		const filterFields = ['origin', 'destination', 'passengers'];
+
+		// 3. Construir filtros dinámicamente usando reduce
+		const filters = filterFields.reduce((acc, field) => {
+			if (req.query[field]) {
+				acc[field] = req.query[field];
+			}
+			return acc;
+		}, {});
+
+		const serviceOptions = {
+			page,
+			limit,
+			includeUser: includeUser !== 'false',
+			filters,
 		};
-		
-		// Aplicar filtros si existen
-		if (origin) options.filters.origin = origin;
-		if (destination) options.filters.destination = destination;
-		
-		// No pasar user = obtener TODAS las requests (solo admin/agent)
-		const result = await service.findAll(options);
-		return success(res, SUCCESS_MESSAGES.DATA_FETCHED, result.data, result.total, {
-			page: result.page,
-			limit: result.limit,
-			totalPages: result.totalPages
-		});
+
+		const result = await service.findAll(serviceOptions);
+		return success(
+			res,
+			SUCCESS_MESSAGES.DATA_FETCHED,
+			result.data,
+			result.total,
+			{
+				page: result.page,
+				limit: result.limit,
+				totalPages: result.totalPages,
+				...(result.wasRedirected && {
+					requestedPage: result.requestedPage,
+					correctedToPage: result.correctedToPage,
+					wasRedirected: result.wasRedirected
+				})
+			}
+		);
 	} catch (error) {
 		next(error);
 	}
@@ -43,25 +62,37 @@ const getRequestById = async (req, res, next) => {
 const findMyRequests = async (req, res, next) => {
 	try {
 		const user = req.user;
-		const { page = 1, limit = 10, includeUser, origin, destination } = req.query;
-		const options = { 
-			page, 
-			limit, 
-			includeUser: includeUser === 'false' ? false : true, // Por defecto true, solo false si se especifica explícitamente
-			filters: {},
-			user // Pasar user = filtrar por MIS requests
+		const { page = 1, limit = 10, includeUser } = req.query;
+
+		// Definir campos que pueden ser filtros
+		const filterFields = ['origin', 'destination', 'passengers'];
+
+		// Construir filtros dinámicamente
+		const filters = filterFields.reduce((acc, field) => {
+			if (req.query[field]) {
+				acc[field] = req.query[field];
+			}
+			return acc;
+		}, {});
+
+		const options = {
+			page,
+			limit,
+			includeUser: includeUser !== 'false',
+			filters,
+			user, // Pasar user = filtrar por MIS requests
 		};
-		
-		// Aplicar filtros adicionales si existen
-		if (origin) options.filters.origin = origin;
-		if (destination) options.filters.destination = destination;
-		
+
 		const result = await service.findAll(options);
-		return success(res, SUCCESS_MESSAGES.DATA_FETCHED, result.data, result.total, {
-			page: result.page,
-			limit: result.limit,
-			totalPages: result.totalPages
-		});
+		return success(
+			res,
+			SUCCESS_MESSAGES.DATA_FETCHED,
+			result.data,
+			result.total,
+			{
+				...result,
+			}
+		);
 	} catch (error) {
 		next(error);
 	}

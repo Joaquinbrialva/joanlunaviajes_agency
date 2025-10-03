@@ -5,23 +5,29 @@ const service = new TripService();
 
 const getAllTrips = async (req, res, next) => {
 	try {
-		const { page = 1, limit = 10, includeUser = true, origin, destination } = req.query;
+		const { page = 1, limit = 10, includeUser } = req.query;
+		
+		// Definir campos que pueden ser filtros
+		const filterFields = ['title', 'origin', 'destination'];
+		
+		// Construir filtros dinámicamente
+		const filters = filterFields.reduce((acc, field) => {
+			if (req.query[field]) {
+				acc[field] = req.query[field];
+			}
+			return acc;
+		}, {});
+		
 		const options = { 
 			page, 
 			limit, 
-			includeUser: includeUser === 'true',
-			filters: {}
+			includeUser: includeUser !== 'false',
+			filters
 		};
-		
-		// Aplicar filtros si existen
-		if (origin) options.filters.origin = origin;
-		if (destination) options.filters.destination = destination;
 		
 		const result = await service.findAll(options);
 		return success(res, SUCCESS_MESSAGES.DATA_FETCHED, result.data, result.total, {
-			page: result.page,
-			limit: result.limit,
-			totalPages: result.totalPages
+			...result
 		});
 	} catch (error) {
 		next(error);

@@ -32,10 +32,18 @@ const success = (
 	res,
 	message = SUCCESS_MESSAGES.OPERATION_SUCCESSFUL,
 	data = null,
-	total // El conteo total (opcional)
+	total, // El conteo total (opcional)
+	metadata = {} // Metadata adicional (paginación, redirección, etc.)
 ) => {
-	// ⬅️ CORRECCIÓN: Pasamos 'total' directamente, sin el operador spread
-	return sendResponse(res, 200, message, data, total);
+	const response = {
+		success: true,
+		message,
+		...(total !== undefined && { total }),
+		data,
+		...metadata // Incluir metadata adicional
+	};
+	
+	return res.status(200).json(response);
 };
 
 // Respuesta de creación (201)

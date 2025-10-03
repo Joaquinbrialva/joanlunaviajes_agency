@@ -97,12 +97,31 @@ class UserService {
 
 		const { count, rows } = await models.User.findAndCountAll(queryOptions);
 
+		// Calcular metadatos de paginación
+		const totalPages = Math.ceil(count / parseInt(limit));
+		const currentPage = parseInt(page);
+
+		// Si la página solicitada no existe, redirigir automáticamente a página 1
+		if (currentPage > totalPages && totalPages > 0) {
+			// Crear nuevas opciones con página 1
+			const correctedOptions = { ...options, page: 1 };
+			const correctedResult = await this.findAll(correctedOptions);
+			
+			// Agregar metadatos de redirección para transparencia
+			return {
+				...correctedResult,
+				requestedPage: currentPage,  // Página que pidió originalmente
+				correctedToPage: 1,          // Página a la que se redirigió
+				wasRedirected: true          // Flag para indicar redirección
+			};
+		}
+
 		return { 
 			data: rows, 
 			total: count,
-			page: parseInt(page),
+			page: currentPage,
 			limit: parseInt(limit),
-			totalPages: Math.ceil(count / parseInt(limit))
+			totalPages
 		};
 	}
 
