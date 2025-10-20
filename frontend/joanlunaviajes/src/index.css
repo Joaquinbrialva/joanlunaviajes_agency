@@ -1,0 +1,29 @@
+:root {
+	--font-primary: 'Plus Jakarta Sans', 'Noto Sans', system-ui, -apple-system,
+		'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+	--primary-color: #ff8c00; /* Naranja Brillante - Color principal de la marca y para elementos interactivos */
+	--primary-dark-color: #cc7000; /* Naranja Oscuro - Versión más oscura del primario para hover o contraste */
+	--primary-light-color: #ffbb66; /* Naranja Claro - Versión más clara del primario para fondos sutiles */
+	--accent-cta-color: #e66f00; /* Naranja Quemado - Tono de naranja distinto para botones de Call to Action (CTAs) */
+	--text-dark-color: #333333; /* Gris Muy Oscuro - Color principal para la mayoría del texto y títulos */
+	--text-light-color: #ffffff; /* Blanco - Color para texto sobre fondos oscuros o de color */
+	--background-light-color: #f8f8f8; /* Gris Muy Claro - Color de fondo general para secciones claras */
+	--border-color: #dddddd;
+}
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	font-family: var(--font-primary);
+}
+
+/* OPCIONAL: Si quieres que el cuerpo tenga un fondo gris, aplícalo solo aquí */
+body {
+	background-color: var(
+		--color-background
+	); /* Un gris de fondo suave es mejor que el d0cece */
+	color: var(
+		--color-text
+	); /* Color de texto base para que no herede nada extraño */
+}
