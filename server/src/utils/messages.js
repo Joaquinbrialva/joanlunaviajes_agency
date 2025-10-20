@@ -14,7 +14,6 @@ const ERROR_MESSAGES = {
 	// Errores de lógica de negocio o de datos
 	RESOURCE_NOT_FOUND: 'Recurso no encontrado.',
 	USER_NOT_FOUND: 'Usuario no encontrado.',
-	EMAIL_ALREADY_EXISTS: 'Ya existe un usuario con este email.',
 	DATA_VALIDATION_FAILED: 'Los datos proporcionados no son válidos.',
 	INVALID_PARAMETERS: 'Los parámetros de la petición son inválidos.',
 	PERMISSION_DENIED: 'Permiso denegado.',
@@ -24,6 +23,7 @@ const ERROR_MESSAGES = {
 
 const AUTH_MESSAGES = {
 	// Mensajes relacionados con autenticación y autorización
+	EMAIL_ALREADY_EXISTS: 'Ya existe un usuario con este email.',
 	INVALID_CREDENTIALS: 'Credenciales inválidas.',
 	LOGGED_IN: 'Sesión iniciada',
 	UNAUTHORIZED: 'No autorizado.',

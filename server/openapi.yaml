@@ -1,0 +1,395 @@
+openapi: 3.0.4
+info:
+  title: JoanlunaViajes API
+  version: 1.0.0
+  description: API para la gestión de clientes, solicitudes de viaje y ofertas para agencias de viajes.
+
+servers:
+  - url: http://localhost:3000/api/v1
+    description: API base
+
+paths:
+  /users/auth/login:
+    post:
+      summary: Autenticación de usuario y obtención de token JWT.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserLogin"
+            example:
+              email: 'joaquinbrialva@gmail.com'
+              password: 'sangregorio'
+      responses:
+        "200":
+          description: Devuelve los datos del usuario y el token JWT.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLoginResponse'
+        "401":
+          description: Credenciales inválidas.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BoomError'
+  /users/auth/signup:
+    post:
+      summary: Registrar una nueva cuenta de usuario.
+      description: Crea una nueva cuenta de usuario con la información proporcionada.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSignup'
+      responses:
+        "201":
+          description: Usuario creado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSignupResponse'
+        "400":
+          description: Error de validación o email ya registrado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BoomError'
+
+  /users:
+    get:
+      summary: Devuelve la lista de todos los usuarios.
+      description: Solo para el rol admin.
+      security:
+        - JWTBearer: []
+      responses:
+        "200":
+          description: Un array JSON de usuarios.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserListResponse'
+        "403":
+          description: Acceso denegado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BoomError'
+
+  /requests:
+    get:
+      summary: Devuelve una lista paginada de solicitudes de viaje.
+      description: Los datos devueltos dependen del usuario que realiza la petición y los filtros aplicados.
+      security:
+        - JWTBearer: []
+      parameters:
+        - name: page
+          in: query
+          description: Número de página para la paginación
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          description: Límite de resultados por página
+          schema:
+            type: integer
+            default: 10
+        - name: origin
+          in: query
+          description: Filtra solicitudes por lugar de origen (búsqueda flexible)
+          required: false
+          schema:
+            type: string
+        - name: destination
+          in: query
+          description: Filtra solicitudes por destino (búsqueda flexible)
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Un array JSON de solicitudes de viaje.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestListResponse'
+        "401":
+          description: No autorizado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BoomError'
+    post:
+      summary: Agrega una nueva solicitud de viaje.
+      security:
+        - JWTBearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Request'
+            example:
+              origin: "Río de Janeiro, Brasil"
+              destination: "Lisboa, Portugal"
+              departureDate: "2025-12-05T06:00:00Z"
+              returnDate: "2026-01-05T18:00:00Z"
+              isRoundTrip: true
+              passengers: 8
+              notes: "Somos un grupo de estudiantes. Buscamos flexibilidad de fechas entre el 5 y 10 de diciembre para la ida. Si es posible, volar con aerolíneas de bajo costo en Sudamérica y Europa."
+      responses:
+        "201":
+          description: Solicitud creada exitosamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/Request"
+        "400":
+          description: Error de validación.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BoomError'
+        "401":
+          description: No autorizado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BoomError'
+
+  /requests/my-requests:
+    get:
+      summary: Devuelve las solicitudes de viaje del usuario autenticado.
+      description: Devuelve una lista paginada de solicitudes de viaje donde el campo userId coincide con el usuario autenticado. Soporta los mismos filtros y parámetros de paginación que el endpoint /requests, como limit, page, origin y destination. Requiere autenticación JWT.
+      security:
+        - JWTBearer: []
+      parameters:
+        - name: page
+          in: query
+          description: Número de página para la paginación
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          description: Límite de resultados por página
+          schema:
+            type: integer
+            default: 10
+        - name: origin
+          in: query
+          description: Filtra solicitudes por lugar de origen (búsqueda flexible)
+          required: false
+          schema:
+            type: string
+        - name: destination
+          in: query
+          description: Filtra solicitudes por destino (búsqueda flexible)
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Un array JSON de solicitudes de viaje del usuario autenticado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestListResponse'
+        "401":
+          description: No autorizado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BoomError'
+
+components:
+  schemas:
+    Request:
+      type: object
+      required:
+        - origin
+        - destination
+        - departureDate
+        - passengers
+      properties:
+        id:
+          type: integer
+        origin:
+          type: string
+        destination:
+          type: string
+        departureDate:
+          type: string
+          format: date-time
+        returnDate:
+          type: string
+          format: date-time
+        isRoundTrip:
+          type: boolean
+        passengers:
+          type: integer
+        notes:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        userId:
+          type: string
+
+    RequestListResponse:
+      type: object
+      description: Contenedor para la respuesta paginada de solicitudes.
+      properties:
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+        totalPages:
+          type: integer
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Request'
+
+    UserSignup:
+      type: object
+      required:
+        - name
+        - lastName
+        - email
+        - password
+        - phone
+      properties:
+        name:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        phone:
+          type: string
+        country:
+          type: string
+        city:
+          type: string
+        role:
+          type: string
+
+    UserSignupResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/UserSignup'
+
+    UserLogin:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+
+    UserLoginResponse:
+      type: object
+      properties:
+        user:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            lastName:
+              type: string
+            email:
+              type: string
+            phone:
+              type: string
+            country:
+              type: string
+            city:
+              type: string
+            isActive:
+              type: boolean
+            role:
+              type: string
+            createdAt:
+              type: string
+              format: date-time
+            updatedAt:
+              type: string
+              format: date-time
+        token:
+          type: string
+
+    UserListResponse:
+      type: object
+      description: Lista de usuarios.
+      properties:
+        users:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              lastName:
+                type: string
+              email:
+                type: string
+              phone:
+                type: string
+              country:
+                type: string
+              city:
+                type: string
+              isActive:
+                type: boolean
+              role:
+                type: string
+              createdAt:
+                type: string
+                format: date-time
+              updatedAt:
+                type: string
+                format: date-time
+
+    BoomError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        statusCode:
+          type: integer
+        error:
+          type: string
+
+  securitySchemes:
+    JWTBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -8,13 +8,14 @@
 	"main": "src/index.js",
 	"scripts": {
 		"dev": "nodemon src/index.js",
-		"test": "echo \"Error: no test specified\" && exit 1",
+		"test": "jest",
 		"migrations:generate": "sequelize-cli migration:generate --name",
 		"migrations:run": "sequelize-cli db:migrate",
 		"migrations:revert": "sequelize-cli db:migrate:undo",
 		"migrations:delete": "sequelize-cli db:migrate:undo:all"
 	},
 	"devDependencies": {
+		"jest": "^30.2.0",
 		"morgan": "^1.10.1",
 		"nodemon": "^3.1.10",
 		"sequelize-cli": "^6.6.3"
@@ -25,11 +26,13 @@
 		"dotenv": "^17.2.1",
 		"express": "^5.1.0",
 		"joi": "^18.0.1",
+		"js-yaml": "^4.1.0",
 		"jsonwebtoken": "^9.0.2",
 		"passport": "^0.7.0",
 		"passport-jwt": "^4.0.1",
 		"pg": "^8.16.3",
 		"sequelize": "^6.37.7",
+		"swagger-ui-express": "^5.0.1",
 		"uuid": "^11.1.0"
 	}
 }
