@@ -52,7 +52,7 @@ class UserService {
 	async create(data) {
 		const user = await this.findByEmail(data.email);
 		if (user) {
-			throw boom.badRequest(ERROR_MESSAGES.EMAIL_ALREADY_EXISTS);
+			throw boom.badRequest(AUTH_MESSAGES.EMAIL_ALREADY_EXISTS);
 		}
 		const newUser = await models.User.create(data);
 		return newUser;

@@ -16,12 +16,12 @@ const {
 const router = require('express').Router();
 
 router.post(
-	'/register',
+	'/auth/signup',
 	validatorHandler(createUserSchema, 'body'),
 	registerUser
 );
 
-router.post('/login', validatorHandler(loginUserSchema, 'body'), logIn);
+router.post('/auth/login', validatorHandler(loginUserSchema, 'body'), logIn);
 
 router.get('/', getAllUsers);
 
