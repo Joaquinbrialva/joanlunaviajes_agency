@@ -5,10 +5,10 @@ import logo from '../assets/logo.jpg';
 export default function Navbar() {
 	const items = [
 		{ name: 'Inicio', path: '/' },
-		{ name: 'Ofertas', path: '/offers' },
-		{ name: 'Destinos', path: '/destinations' },
-		{ name: 'Contacto', path: '/contact' },
-		{ name: 'Solicitar Viaje', path: '/request-form' },
+		{ name: 'Ofertas', path: '/ofertas' },
+		{ name: 'Destinos', path: '/destinos' },
+		{ name: 'Contacto', path: '/contacto' },
+		{ name: 'Solicitar Viaje', path: '/solicitud-viaje' },
 		{ name: 'Iniciar Sesión', path: '/login', variant: 'cta' },
 	];
 

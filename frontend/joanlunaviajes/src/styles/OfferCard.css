@@ -1,0 +1,26 @@
+.card-container {
+  max-width: 320px;
+  min-height: 270px;
+  border-radius: 8px;
+}
+
+.card-container img {
+  width: 100%;
+  height: 190px;
+  border-radius: 8px;
+  object-fit: cover;
+  object-position: center;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+}
+
+.card-title p {
+  font-size: 1.2rem;
+  margin-top: 8px;
+}
+
+.card-description p {
+  font-size: small;
+  color: var(--text-dark-color);
+}
