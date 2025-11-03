@@ -25,6 +25,13 @@
 	font-size: 100%;
 }
 
+.offer-form-field-checkbox {
+	display: flex;
+	width: 50%;
+	justify-content: space-between;
+}
+
+
 .offer-form-field input:focus {
 	outline: none;
 	border-color: var(--input-border-color-focus);

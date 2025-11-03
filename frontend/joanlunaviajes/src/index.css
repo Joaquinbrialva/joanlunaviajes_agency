@@ -10,7 +10,7 @@
 	--accent-cta-color: #d05d00; /* Naranja-Rojo intenso y oscuro. Mayor contraste con el fondo. */
 
 	/* --- Texto y Fondos (Neutros) --- */
-	--text-dark-color: #333333; /* Texto principal (casi negro) */
+	--text-dark-color: #3b3b3b; /* Texto principal (casi negro) */
 	--text-light-color: #ffffff; /* Texto sobre fondos oscuros (blanco) */
 	--text-darker-color: #000000;
 	--background-light-color: #f8f8f8; /* Fondo claro de la aplicación */

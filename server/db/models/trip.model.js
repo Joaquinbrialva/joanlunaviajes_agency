@@ -40,7 +40,7 @@ const tripsSchema = {
 	},
 	passengers: {
 		type: DataTypes.INTEGER,
-		allowNull: false,
+		allowNull: true,
 	},
 	price: {
 		type: DataTypes.DECIMAL(10, 2),
