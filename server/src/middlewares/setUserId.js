@@ -7,6 +7,7 @@ function setUserId(req, res, next) {
 
 	try {
 		const userId = req.user.sub;
+		req.body = req.body || {};
 		req.body.userId = userId;
 		next();
 	} catch (error) {

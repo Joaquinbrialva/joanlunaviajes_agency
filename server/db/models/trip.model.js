@@ -13,6 +13,10 @@ const tripsSchema = {
 		type: DataTypes.STRING,
 		allowNull: false,
 	},
+	description: {
+		type: DataTypes.STRING,
+		allowNull: true,
+	},
 	origin: {
 		type: DataTypes.STRING,
 		allowNull: false,
@@ -27,6 +31,10 @@ const tripsSchema = {
 	},
 	returnDate: {
 		type: DataTypes.DATE,
+		allowNull: true,
+	},
+	price: {
+		type: DataTypes.DECIMAL(10, 2),
 		allowNull: true,
 	},
 	photos: {

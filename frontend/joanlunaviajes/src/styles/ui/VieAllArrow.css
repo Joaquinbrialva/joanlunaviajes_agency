@@ -1,0 +1,44 @@
+.arrow-container {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	cursor: pointer;
+	padding: 8px 16px;
+	border-radius: 8px;
+	transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+		transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	will-change: transform;
+}
+
+.arrow-container:hover {
+	background-color: rgba(0, 0, 0, 0.05);
+	transform: translateX(4px);
+}
+
+.arrow-text {
+	color: var(--text-dark-color);
+	transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	font-weight: 500;
+}
+
+.arrow-icon {
+	color: var(--text-dark-color);
+	transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+		transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	font-weight: 500;
+	will-change: transform;
+}
+
+.arrow-container:hover .arrow-text,
+.arrow-container:hover .arrow-icon {
+	color: var(--primary-light-color);
+}
+
+.arrow-container:hover .arrow-icon {
+	transform: translateX(4px);
+}
+
+.offer-card-info-container {
+	padding: 8px;
+}
+/* ... (resto de tu código CSS) ... */

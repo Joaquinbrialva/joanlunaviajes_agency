@@ -1,66 +1,54 @@
 @import url('https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@400;500;700;800');
 
 :root {
+	/* --- Marca / Paleta Primaria (Naranja: #ff8c00) --- */
+	--primary-color: #ff8c00; /* Naranja Oscuro (DarkOrange) */
+	--primary-dark-color: #cc7000; /* Naranja más oscuro (para hover/active) */
+	--primary-light-color: #ffb74d; /* Naranja más claro (para fondos sutiles) */
+
+	/* --- Acentos / CTA (Llamado a la Acción) --- */
+	--accent-cta-color: #d05d00; /* Naranja-Rojo intenso y oscuro. Mayor contraste con el fondo. */
+
+	/* --- Texto y Fondos (Neutros) --- */
+	--text-dark-color: #333333; /* Texto principal (casi negro) */
+	--text-light-color: #ffffff; /* Texto sobre fondos oscuros (blanco) */
+	--text-darker-color: #000000;
+	--background-light-color: #f8f8f8; /* Fondo claro de la aplicación */
+	--border-color: #dddddd; /* Color de bordes y separadores */
+
+	/* --- Utilitarios (Sombras, Descripciones) --- */
+	--cards-description-color: #a77e4e; /* Marrón/Tostado para texto secundario/descripciones */
+	--cards-shadow-color: rgba(0, 0, 0, 0.055); /* Sombra suave basada en el primario */
+	--cards-black-color-hover: rgba(0, 0, 0, 0.281); /* Sombra general al pasar el ratón */
+
+	/* --- Tipografía --- */
 	--font-primary: 'Plus Jakarta Sans', 'Noto Sans', sans-serif;
-	--primary-color: #ff8c00; /* Naranja Brillante - Color principal de la marca y para elementos interactivos */
-	--primary-dark-color: #cc7000; /* Naranja Oscuro - Versión más oscura del primario para hover o contraste */
-	--primary-light-color: #ffbb66; /* Naranja Claro - Versión más clara del primario para fondos sutiles */
-	--accent-cta-color: #e66f00; /* Naranja Quemado - Tono de naranja distinto para botones de Call to Action (CTAs) */
-	--text-dark-color: #333333; /* Gris Muy Oscuro - Color principal para la mayoría del texto y títulos */
-	--text-light-color: #ffffff; /* Blanco - Color para texto sobre fondos oscuros o de color */
-	--background-light-color: #f8f8f8; /* Gris Muy Claro - Color de fondo general para secciones claras */
-	--border-color: #dddddd;
+	--cards-description-font: 14px;
+	--input-border-color: rgb(146, 146, 146);
+	--input-border-color-focus: #ff8c00;
 }
 
 * {
-	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
+	box-sizing: border-box;
 	font-family: var(--font-primary);
 }
 
 /* Contenedor principal del body */
 body {
-	width: 100%;
-	margin: 0;
-	background-color: var(
-		--color-background
-	); /* Un gris de fondo suave es mejor que el d0cece */
-	color: var(
-		--color-text
-	); /* Color de texto base para que no herede nada extraño */
-	overflow-x: hidden; /* Evita scroll horizontal */
-}
-
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
-
-/* Enlaces */
-a {
-	color: inherit;
-	text-decoration: none;
-}
-
-a:hover {
-	color: #000;
-}
-
-/* Utilidades globales */
-.container {
-	max-width: 1200px;
+	height: 100%;
 	margin: 0 auto;
-	padding: 0 20px;
+	background-color: var(--background-light-color);
+	overflow-x: hidden;
 }
 
-.section {
-	padding: 70px 20px;
-}
-
+/* todos los h tienen que tener margin 0 */
 h1,
 h2,
-h3 {
-	font-weight: 700;
+h3,
+h4,
+h5,
+h6 {
+	margin: 0;
 }

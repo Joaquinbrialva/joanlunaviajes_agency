@@ -1,0 +1,31 @@
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: 0 auto;
+  align-items: center;
+  gap: 15px;
+}
+
+.footer-content {
+  color: var(--cards-description-color);
+}
+
+.footer-social {
+  font-size: 20px;
+}
+
+.footer-terms {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}.footer-terms p {
+  cursor: pointer;
+}
+
+.footer-social {
+  display: flex;
+  gap: 10px;
+}.footer-icon {
+  cursor: pointer;
+}

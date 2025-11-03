@@ -1,23 +1,56 @@
-import HeroSection from '../components/HeroSection';
-import Navbar from '../components/NavBar';
-import OfferCard from '../components/OfferCard';
-import '../styles/Homepage.css';
-//HACER EL H3 UN COMPONENTE
-export default function Home() {
+import Navbar from '../components/navigation/Navbar';
+import HeroSection from '../components/layout/homepage/HeroSection';
+import CardsSection from '../components/layout/homepage/CardsSection';
+import OfferCard from '../components/cards/OfferCard';
+import cardsData from '../utils/cards-data.json';
+import DestinationCard from '../components/cards/DestinationCard';
+import ClientTestimonialsSection from '../components/layout/homepage/ClientTestimonialsSection';
+import '../styles/layout/Homepage.css';
+import BenefitsSection from '../components/layout/homepage/BenefitsSection';
+import FooterSection from '../components/layout/homepage/FooterSection';
+export default function Homepage() {
+	const offers = cardsData?.offers ?? [];
+	const destinations = cardsData?.destinations ?? [];
+	const testimonials = cardsData?.testimonials ?? [];
+
 	return (
-		<div className='home-container'>
-			<Navbar />
-			<section className='hero-container'>
+		<main className='home-container'>
+			<header className='home-navbar'>
+				<Navbar />
+			</header>
+
+			<section className='home-hero'>
 				<HeroSection />
 			</section>
-			<section className='cards-section'>
-				<h3>Ofertas Destacadas</h3>
-				<div className='cards-grid'>
-					<OfferCard />
-					<OfferCard />
-					<OfferCard />
-				</div>
+
+			<section className='home-cards'>
+				<CardsSection
+					title='Ofertas Destacadas'
+					cards={offers}
+					CardComponent={OfferCard}
+					showArrow
+					arrowText='Ver todas las ofertas'
+				/>
+				<CardsSection
+					title='Destinos Destacados'
+					cards={destinations}
+					CardComponent={DestinationCard}
+					showArrow
+					arrowText='Ver todos los destinos'
+				/>
 			</section>
-		</div>
+
+			<section className='home-feedback'>
+				<ClientTestimonialsSection testimonials={testimonials} />
+			</section>
+
+			<section className='home-benefits'>
+				<BenefitsSection />
+			</section>
+
+			<footer className='home-footer'>
+				<FooterSection />
+			</footer>
+		</main>
 	);
 }

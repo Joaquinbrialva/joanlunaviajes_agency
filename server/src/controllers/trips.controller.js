@@ -48,6 +48,7 @@ const getTripById = async (req, res, next) => {
 const createTrip = async (req, res, next) => {
 	try {
 		const { body } = req;
+		console.log(body)
 		const newTrip = await service.create(body);
 		return created(res, SUCCESS_MESSAGES.RESOURCE_CREATED, newTrip);
 	} catch (error) {

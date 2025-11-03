@@ -1,0 +1,67 @@
+/* ======= HOMEPAGE ======= */
+.home-container {
+	min-height: 100vh;
+	width: 80%;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+}
+
+/* ======= NAVBAR ======= */
+.home-navbar {
+	/* position: sticky;
+	top: 0;
+	z-index: 10; */
+	background-color: var(--background-color);
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* ======= HERO SECTION ======= */
+.home-hero {
+	margin-bottom: 20px;
+}
+
+/* ======= CARDS SECTION ======= */
+.home-cards {
+	margin-bottom: 20px;
+}
+
+/* ======= FEEDBACK SECTION ======= */
+.home-feedback {
+	margin-bottom: 20px;
+}
+
+.home-benefits {
+	margin-bottom: 150px;
+}
+
+.home-footer {
+	margin-bottom: 30px;
+}
+
+@media (max-width: 768px) {
+	.home-container {
+		width: 95%;
+		gap: 40px;
+	}
+
+	.home-container h3 {
+		font-size: 1.4rem;
+		margin-bottom: 20px;
+	}
+
+	.cards-grid {
+		gap: 15px;
+	}
+}
+
+@media (max-width: 480px) {
+	.home-container h3 {
+		font-size: 1.3rem;
+		margin-bottom: 15px;
+	}
+
+	.cards-grid {
+		gap: 12px;
+	}
+}

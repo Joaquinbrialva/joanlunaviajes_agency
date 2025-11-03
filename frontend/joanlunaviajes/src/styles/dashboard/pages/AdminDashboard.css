@@ -1,0 +1,7 @@
+.dashboard-container {
+  display: flex;
+}
+
+.dashboard-main {
+  padding: 10px;
+}
