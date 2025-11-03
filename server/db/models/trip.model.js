@@ -33,6 +33,15 @@ const tripsSchema = {
 		type: DataTypes.DATE,
 		allowNull: true,
 	},
+	isRoundTrip: {
+		type: DataTypes.BOOLEAN,
+		defaultValue: false,
+		allowNull: false
+	},
+	passengers: {
+		type: DataTypes.INTEGER,
+		allowNull: false,
+	},
 	price: {
 		type: DataTypes.DECIMAL(10, 2),
 		allowNull: true,
