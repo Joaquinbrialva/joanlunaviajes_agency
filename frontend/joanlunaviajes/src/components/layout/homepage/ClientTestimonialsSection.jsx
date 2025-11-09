@@ -36,13 +36,13 @@ export default function ClientTestimonialsSection({ testimonials }) {
 				}}
 				className='testimonials-swiper'
 			>
-				{testimonials.map(({ id, name, quote, imageUrl, alt_text }) => (
+				{testimonials.map(({ id, name, quote, image, alt_text }) => (
 					<SwiperSlide key={id}>
 						<TestimonialCard
 							id={id}
 							name={name}
 							quote={quote}
-							imageUrl={imageUrl}
+							image={image}
 							alt_text={alt_text || name}
 						/>
 					</SwiperSlide>

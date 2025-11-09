@@ -6,15 +6,15 @@ export default function OfferCard({
 	origin,
 	destination,
 	description,
-	imageUrl,
+	image,
 	alt_text,
 	price,
 }) {
-	console.log(imageUrl);
+	console.log(image);
 	return (
 		<div className='offer-card-container'>
 			<div className='offer-card-img-container'>
-				<img src={imageUrl} alt={alt_text || title} />
+				<img src={image} alt={alt_text || title} />
 				<span className={price && 'offer-card-price'}>
 					{price && `USD ${price}`}
 				</span>

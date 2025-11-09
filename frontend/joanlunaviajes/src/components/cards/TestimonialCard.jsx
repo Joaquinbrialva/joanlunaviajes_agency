@@ -1,12 +1,12 @@
 import '../../styles/cards/TestimonialCard.css'
 
-export default function TestimonialCard({ name, quote, imageUrl, alt_text }) {
+export default function TestimonialCard({ name, quote, image, alt_text }) {
   return (
     <div className="testimonial-card-container">
       <div className="testimonial-card-content">
         <div className="testimonial-card-image">
           <img
-            src={imageUrl}
+            src={image}
             alt={alt_text || name}
           />
         </div>

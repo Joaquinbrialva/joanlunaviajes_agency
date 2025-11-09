@@ -11,7 +11,6 @@ import FooterSection from '../components/layout/homepage/FooterSection';
 import { useFetchOffers } from '../hooks/useFetchOffers';
 export default function Homepage() {
 	const { trips, loading } = useFetchOffers();
-
 	const destinations = cardsData?.destinations ?? [];
 	const testimonials = cardsData?.testimonials ?? [];
 
@@ -33,7 +32,7 @@ export default function Homepage() {
 					showArrow
 					arrowText='Ver todas las ofertas'
 					loading={loading}
-					rows={1}
+					rows={2}
 				/>
 
 				<CardsSection

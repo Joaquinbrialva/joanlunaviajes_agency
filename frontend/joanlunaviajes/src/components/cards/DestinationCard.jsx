@@ -3,13 +3,13 @@ import '../../styles/cards/DestinationCard.css';
 export default function DestinationCard({
 	title,
 	description,
-	imageUrl,
+	image,
 	alt_text,
 }) {
 	return (
 		<div className='destination-card-container'>
 			<div className='destination-card-img-container'>
-				<img src={imageUrl} alt={alt_text} />
+				<img src={image} alt={alt_text} />
 			</div>
 			<div className='destination-card-info-container'>
 				<div className='destination-card-title-container'>

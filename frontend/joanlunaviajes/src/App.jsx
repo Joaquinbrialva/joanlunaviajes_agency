@@ -9,11 +9,13 @@ import Clients from './pages/admin/dashboard/Clients';
 import Agents from './pages/admin/dashboard/Agents';
 import Permissions from './pages/admin/dashboard/Permissions';
 import Settings from './pages/admin/dashboard/Settings';
+import OffersPage from './pages/OffersPage';
 
 function App() {
 	return (
 		<Routes>
 			<Route index element={<Homepage />} />
+			<Route path='ofertas' element={<OffersPage />} />
 			<Route path='dashboard' element={<AdminDashboard />}>
 				<Route index element={<HomeDashboard />} />
 				<Route path='ofertas' element={<Offers />} />
