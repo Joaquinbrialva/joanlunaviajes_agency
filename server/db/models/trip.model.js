@@ -27,7 +27,7 @@ const tripsSchema = {
 	},
 	departureDate: {
 		type: DataTypes.DATE,
-		allowNull: false,
+		allowNull: true,
 	},
 	returnDate: {
 		type: DataTypes.DATE,
@@ -36,7 +36,7 @@ const tripsSchema = {
 	isRoundTrip: {
 		type: DataTypes.BOOLEAN,
 		defaultValue: false,
-		allowNull: false
+		allowNull: false,
 	},
 	passengers: {
 		type: DataTypes.INTEGER,
@@ -46,13 +46,17 @@ const tripsSchema = {
 		type: DataTypes.DECIMAL(10, 2),
 		allowNull: true,
 	},
-	photos: {
-		type: DataTypes.ARRAY(DataTypes.STRING),
-		allowNull: false,
+	image: {
+		type: DataTypes.STRING,
+		allowNull: true,
 	},
 	notes: {
 		type: DataTypes.STRING,
 		allowNull: true,
+	},
+	status: {
+		type: DataTypes.BOOLEAN,
+		defaultValue: true,
 	},
 	createdAt: {
 		type: DataTypes.DATE,
@@ -82,7 +86,7 @@ class Trip extends Model {
 		// Un viaje pertenece a un usuario
 		this.belongsTo(models.User, {
 			as: 'user',
-			foreignKey: 'userId'
+			foreignKey: 'userId',
 		});
 	}
 

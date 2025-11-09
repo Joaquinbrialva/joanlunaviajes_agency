@@ -40,9 +40,9 @@ const success = (
 		message,
 		...(total !== undefined && { total }),
 		data,
-		...metadata // Incluir metadata adicional
+		...metadata, // Incluir metadata adicional
 	};
-	
+
 	return res.status(200).json(response);
 };
 
@@ -58,6 +58,7 @@ const created = (
 // Respuesta de error
 const error = (res, statusCode, message, details = null) => {
 	return res.status(statusCode).json({
+		statusCode: statusCode,
 		success: false,
 		message,
 		details,
@@ -73,11 +74,11 @@ const badRequest = (
 	return error(res, 400, message, details);
 };
 
-const unauthorized = (
+const unauthorized = ({
 	res,
 	message = AUTH_MESSAGES.UNAUTHORIZED,
-	details = null
-) => {
+	details = null,
+}) => {
 	return error(res, 401, message, details);
 };
 

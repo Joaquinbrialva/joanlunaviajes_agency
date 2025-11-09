@@ -7,7 +7,7 @@ const { Op } = require('sequelize');
 const ROLES = {
 	ADMIN: 'admin',
 	AGENT: 'agent',
-	USER: 'user'
+	USER: 'user',
 };
 
 class TripService {
@@ -25,11 +25,12 @@ class TripService {
 
 	// Método privado para verificar autorización
 	#checkAuthorization(user, resourceUserId) {
-		const isOverrideRole = user.role === ROLES.ADMIN || user.role === ROLES.AGENT;
+		const isOverrideRole =
+			user.role === ROLES.ADMIN || user.role === ROLES.AGENT;
 		const isOwner = user.sub === resourceUserId;
 		return isOverrideRole || isOwner;
 	}
-	
+
 	async create(data) {
 		const trip = await models.Trip.create(data);
 		return trip;
@@ -37,7 +38,7 @@ class TripService {
 
 	async findAll(options = {}) {
 		const { page = 1, limit = 10, includeUser = true, filters = {} } = options;
-		
+
 		const queryOptions = {
 			limit: parseInt(limit),
 			offset: (parseInt(page) - 1) * parseInt(limit),
@@ -54,9 +55,7 @@ class TripService {
 		}
 
 		const { count, rows } = await models.Trip.findAndCountAll(queryOptions);
-		
-		if (count === 0) throw boom.notFound(ERROR_MESSAGES.NO_TRIPS_FOUND);
-		
+
 		// Calcular metadatos de paginación
 		const totalPages = Math.ceil(count / parseInt(limit));
 		const currentPage = parseInt(page);
@@ -66,102 +65,102 @@ class TripService {
 			// Crear nuevas opciones con página 1
 			const correctedOptions = { ...options, page: 1 };
 			const correctedResult = await this.findAll(correctedOptions);
-			
+
 			// Agregar metadatos de redirección para transparencia
 			return {
 				...correctedResult,
-				requestedPage: currentPage,  // Página que pidió originalmente
-				correctedToPage: 1,          // Página a la que se redirigió
-				wasRedirected: true          // Flag para indicar redirección
+				requestedPage: currentPage, // Página que pidió originalmente
+				correctedToPage: 1, // Página a la que se redirigió
+				wasRedirected: true, // Flag para indicar redirección
 			};
 		}
-		
-		return { 
-			data: rows, 
+
+		return {
+			data: rows,
 			total: count,
 			page: currentPage,
 			limit: parseInt(limit),
-			totalPages
+			totalPages,
 		};
 	}
 
 	async findById(id, includeUser = true) {
 		const options = {};
-		
+
 		if (includeUser) {
 			options.include = TripService.getDefaultIncludeOptions();
 		}
-		
+
 		const trip = await models.Trip.findByPk(id, options);
-		
+
 		if (trip === null) throw boom.notFound(ERROR_MESSAGES.RESOURCE_NOT_FOUND);
-		
+
 		return trip;
 	}
 
 	async findByRoute(origin, destination, options = {}) {
 		const { includeUser = false } = options;
-		
+
 		const queryOptions = {
 			where: { origin, destination },
 		};
-		
+
 		if (includeUser) {
 			queryOptions.include = TripService.getDefaultIncludeOptions();
 		}
-		
+
 		const trips = await models.Trip.findAll(queryOptions);
-		
+
 		if (trips.length === 0) {
 			throw boom.notFound(ERROR_MESSAGES.RESOURCE_NOT_FOUND);
 		}
-		
+
 		return trips;
 	}
 
 	async findByDate(departureDate, returnDate, options = {}) {
 		const { includeUser = false } = options;
-		
+
 		const queryOptions = {
 			where: {
 				departureDate: { [Op.gte]: departureDate },
 				returnDate: { [Op.lte]: returnDate },
 			},
 		};
-		
+
 		if (includeUser) {
 			queryOptions.include = TripService.getDefaultIncludeOptions();
 		}
-		
+
 		const trips = await models.Trip.findAll(queryOptions);
-		
+
 		if (trips.length === 0) {
 			throw boom.notFound(ERROR_MESSAGES.RESOURCE_NOT_FOUND);
 		}
-		
+
 		return trips;
 	}
 
 	async update(id, data, user) {
 		const trip = await this.findById(id, false); // No necesitamos el usuario en la consulta
-		
+
 		// Verificar autorización usando el método privado
 		if (!this.#checkAuthorization(user, trip.userId)) {
 			throw boom.forbidden(AUTH_MESSAGES.FORBIDDEN);
 		}
-		
+
 		const tripUpdated = await trip.update(data);
 		return tripUpdated;
 	}
 
 	async delete(id, user) {
 		const trip = await this.findById(id, false); // No necesitamos el usuario en la consulta
-		
+
 		// Verificar autorización usando el método privado
 		if (!this.#checkAuthorization(user, trip.userId)) {
 			throw boom.forbidden(AUTH_MESSAGES.FORBIDDEN);
 		}
-		
+
 		await trip.destroy();
 		return { id };
 	}

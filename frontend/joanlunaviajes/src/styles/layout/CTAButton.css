@@ -1,0 +1,45 @@
+.cta-button {
+	background-color: var(--accent-cta-color);
+	color: var(--text-light-color);
+	border: none;
+	padding: 18px 40px;
+	font-weight: bold;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	box-shadow: 0 4px 15px var(--cards-shadow-color);
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	display: flex;
+	align-items: center;
+}
+
+.cta-button:hover {
+	background-color: var(--primary-dark-color);
+	/* transform: translateY(-2px); */
+	box-shadow: 0 6px 20px var(--cards-shadow-color-hover);
+}
+
+.cta-button:active {
+	transform: translateY(2px);
+}
+
+.cta-button:focus-visible {
+	outline: 2px solid var(--text-light-color);
+	outline-offset: 2px;
+}
+
+.cta-button:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+	transform: none;
+	box-shadow: none;
+}
+
+.cta-button-offer__add {
+	gap: 8px;
+	align-items: center;
+	padding: 10px;
+	text-transform: none;
+	letter-spacing: normal;
+}

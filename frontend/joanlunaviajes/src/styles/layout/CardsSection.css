@@ -5,7 +5,7 @@
 }
 
 .cards-section-container > *:nth-child(n + 2) {
-  margin-bottom: 20px;
+	margin-bottom: 20px;
 }
 
 .cards-section-header {
@@ -38,9 +38,21 @@
 .cards-section-grid {
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: start;
-	gap: 20px;
-	max-width: 100%;
+	gap: 1rem;
+	opacity: 0;
+	transform: translateY(10px);
+	transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.cards-section-grid.loaded {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* Skeleton visible mientras carga */
+.cards-section-grid.loading {
+	opacity: 1;
+	transform: none;
 }
 
 @media (max-width: 1024px) {

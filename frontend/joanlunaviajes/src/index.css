@@ -18,8 +18,18 @@
 
 	/* --- Utilitarios (Sombras, Descripciones) --- */
 	--cards-description-color: #a77e4e; /* Marrón/Tostado para texto secundario/descripciones */
-	--cards-shadow-color: rgba(0, 0, 0, 0.055); /* Sombra suave basada en el primario */
-	--cards-black-color-hover: rgba(0, 0, 0, 0.281); /* Sombra general al pasar el ratón */
+	--cards-shadow-color: rgba(
+		0,
+		0,
+		0,
+		0.055
+	); /* Sombra suave basada en el primario */
+	--cards-black-color-hover: rgba(
+		0,
+		0,
+		0,
+		0.281
+	); /* Sombra general al pasar el ratón */
 
 	/* --- Tipografía --- */
 	--font-primary: 'Plus Jakarta Sans', 'Noto Sans', sans-serif;
@@ -51,4 +61,8 @@ h4,
 h5,
 h6 {
 	margin: 0;
+}
+
+a {
+	text-decoration: none;
 }

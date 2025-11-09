@@ -1,18 +1,35 @@
-import React, { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import '../../styles/ui/ImageUpload.css';
 
-const MAX_IMAGES = 5;
-
-const ImageUpload = ({ onChange }) => {
-	const fileInputRef = useRef(null);
+const ImageUpload = ({
+	onChange,
+	filesFromParent = [],
+	disabled,
+	multiple = false, // ⚡ nueva prop
+	maxImages = 5, // opcional, para limitar cantidad
+}) => {
 	const [files, setFiles] = useState([]);
+	const fileInputRef = useRef(null);
+
+	// 🧹 Reset si el padre limpia las fotos
+	useEffect(() => {
+		if (!filesFromParent?.length) {
+			setFiles([]);
+			if (fileInputRef.current) fileInputRef.current.value = '';
+		}
+	}, [filesFromParent]);
 
 	const addFiles = (incomingFiles) => {
-		// Evitar duplicados usando nombre + tamaño
-		const newFiles = incomingFiles.filter((file) => {
-			return !files.some((f) => f.name === file.name && f.size === file.size);
-		});
-		const allFiles = [...files, ...newFiles].slice(0, MAX_IMAGES);
+		let newFiles = incomingFiles;
+
+		// Si no multiple, solo tomamos el primero
+		if (!multiple) newFiles = incomingFiles.slice(0, 1);
+
+		// Evitar duplicados
+		const allFiles = multiple
+			? [...files, ...newFiles].slice(0, maxImages)
+			: newFiles;
+
 		setFiles(allFiles);
 		onChange && onChange(allFiles);
 	};
@@ -31,23 +48,22 @@ const ImageUpload = ({ onChange }) => {
 			f.type.startsWith('image/')
 		);
 		if (selectedFiles.length) addFiles(selectedFiles);
-		// Para poder volver a cargar el mismo archivo si es necesario
-		e.target.value = null;
-	};
-
-	const handleClick = () => {
-		if (files.length < MAX_IMAGES) fileInputRef.current.click();
-	};
-
-	const preventDefaults = (e) => {
-		e.preventDefault();
-		e.stopPropagation();
+		e.target.value = null; // permite volver a subir el mismo archivo
 	};
 
 	const removeImage = (idx) => {
 		const newFiles = files.filter((_, i) => i !== idx);
 		setFiles(newFiles);
 		onChange && onChange(newFiles);
+	};
+
+	const handleClick = () => {
+		if (files.length < maxImages) fileInputRef.current.click();
+	};
+
+	const preventDefaults = (e) => {
+		e.preventDefault();
+		e.stopPropagation();
 	};
 
 	return (
@@ -66,7 +82,7 @@ const ImageUpload = ({ onChange }) => {
 				Arrastra y suelta imágenes aquí o haz clic para seleccionar archivos
 			</p>
 			<button
-				disabled={files.length >= MAX_IMAGES}
+				disabled={files.length >= maxImages}
 				type='button'
 				className='image-upload-btn'
 				onClick={(e) => {
@@ -75,16 +91,19 @@ const ImageUpload = ({ onChange }) => {
 				}}
 				style={{ marginBottom: files.length ? '1.2rem' : '' }}
 			>
-				Seleccionar Archivos
+				{`Seleccionar ${multiple ? 'Archivos' : 'Archivo'}`}
 			</button>
+
 			<input
 				type='file'
 				ref={fileInputRef}
-				multiple
+				multiple={multiple}
 				accept='image/*'
 				style={{ display: 'none' }}
 				onChange={handleChange}
+				disabled={disabled}
 			/>
+
 			{files.length > 0 && (
 				<div className='image-upload-preview-container'>
 					{files.map((file, i) => (
@@ -109,8 +128,9 @@ const ImageUpload = ({ onChange }) => {
 					))}
 				</div>
 			)}
+
 			<div className='image-upload-max-hint'>
-				{files.length}/{MAX_IMAGES}
+				{multiple && `${files.length}/${maxImages}`}
 			</div>
 		</div>
 	);

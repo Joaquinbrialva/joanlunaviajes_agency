@@ -1,27 +1,36 @@
 const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
 
-// Configuración del almacenamiento en memoria (puedes cambiar a diskStorage si querés guardar archivos)
 const storage = multer.memoryStorage();
 
-// Configurar multer con ese storage
-const upload = multer({ storage });
+const upload = multer({
+	storage,
+	limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB por archivo
+	fileFilter: (req, file, cb) => {
+		if (!file.mimetype.startsWith('image/')) {
+			return cb(new Error('Solo se permiten imágenes'));
+		}
+		cb(null, true);
+	},
+});
 
-// Middleware auxiliar para normalizar los datos del body
-function normalizeTripBody(req, res, next) {
-  // Convertir price a número (porque multer lo recibe como string)
-  if (req.body.price) req.body.price = parseFloat(req.body.price);
+function saveImageBuffer(file) {
+	const uploadDir = path.join(__dirname, '../uploads');
 
-  // Convertir archivos a un arreglo de nombres (o buffers/base64 según tu caso)
-  if (req.files && req.files.length) {
-    req.body.photos = req.files.map(f => f.originalname);
-  } else {
-    req.body.photos = [];
-  }
+	if (!fs.existsSync(uploadDir)) {
+		fs.mkdirSync(uploadDir, { recursive: true });
+	}
 
-  next();
+	const timestamp = Date.now();
+	const random = Math.round(Math.random() * 1e9);
+	const ext = path.extname(file.originalname);
+	const filename = `${timestamp}-${random}${ext}`;
+
+	const filePath = path.join(uploadDir, filename);
+	fs.writeFileSync(filePath, file.buffer);
+
+	return filePath;
 }
 
-module.exports = {
-  upload,
-  normalizeTripBody
-};
+module.exports = { upload, saveImageBuffer };

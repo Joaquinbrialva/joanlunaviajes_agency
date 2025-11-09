@@ -9,28 +9,29 @@ const jwt = require('jsonwebtoken');
 const ROLES = {
 	ADMIN: 'admin',
 	AGENT: 'agent',
-	USER: 'user'
+	USER: 'user',
 };
 
 class UserService {
 	// Configuración común para excluir password
 	static getDefaultAttributes() {
 		return {
-			exclude: ['password']
+			exclude: ['password'],
 		};
 	}
 
 	// Método privado para verificar autorización
 	#checkAuthorization(user, targetUserId) {
-		const isOverrideRole = user.role === ROLES.ADMIN || user.role === ROLES.AGENT;
+		const isOverrideRole =
+			user.role === ROLES.ADMIN || user.role === ROLES.AGENT;
 		const isOwner = user.sub === targetUserId;
 		return isOverrideRole || isOwner;
 	}
-	
+
 	async signToken({ id, role }) {
 		const secret = config.jwt_secret;
 		const token = jwt.sign({ sub: id, role }, secret, {
-			expiresIn: '15m',
+			expiresIn: '1h',
 		});
 		return token;
 	}
@@ -59,25 +60,29 @@ class UserService {
 	}
 
 	async findById(id, includePassword = false) {
-		const attributes = includePassword ? {} : UserService.getDefaultAttributes();
-		
+		const attributes = includePassword
+			? {}
+			: UserService.getDefaultAttributes();
+
 		const user = await models.User.findByPk(id, { attributes });
-		
+
 		if (user === null) {
 			throw boom.notFound(ERROR_MESSAGES.USER_NOT_FOUND);
 		}
-		
+
 		return user;
 	}
 
 	async findByEmail(email, includePassword = false) {
-		const attributes = includePassword ? {} : UserService.getDefaultAttributes();
-		
+		const attributes = includePassword
+			? {}
+			: UserService.getDefaultAttributes();
+
 		const user = await models.User.findOne({
 			where: { email },
-			attributes
+			attributes,
 		});
-		
+
 		return user;
 	}
 
@@ -88,7 +93,7 @@ class UserService {
 
 	async findAll(options = {}) {
 		const { page = 1, limit = 10 } = options;
-		
+
 		const queryOptions = {
 			attributes: UserService.getDefaultAttributes(),
 			limit: parseInt(limit),
@@ -106,45 +111,45 @@ class UserService {
 			// Crear nuevas opciones con página 1
 			const correctedOptions = { ...options, page: 1 };
 			const correctedResult = await this.findAll(correctedOptions);
-			
+
 			// Agregar metadatos de redirección para transparencia
 			return {
 				...correctedResult,
-				requestedPage: currentPage,  // Página que pidió originalmente
-				correctedToPage: 1,          // Página a la que se redirigió
-				wasRedirected: true          // Flag para indicar redirección
+				requestedPage: currentPage, // Página que pidió originalmente
+				correctedToPage: 1, // Página a la que se redirigió
+				wasRedirected: true, // Flag para indicar redirección
 			};
 		}
 
-		return { 
-			data: rows, 
+		return {
+			data: rows,
 			total: count,
 			page: currentPage,
 			limit: parseInt(limit),
-			totalPages
+			totalPages,
 		};
 	}
 
 	async update(id, data, user = null) {
 		const targetUser = await this.findById(id);
-		
+
 		// Si se proporciona un usuario, verificar autorización
 		if (user && !this.#checkAuthorization(user, id)) {
 			throw boom.forbidden(AUTH_MESSAGES.FORBIDDEN);
 		}
-		
+
 		const updatedUser = await targetUser.update(data);
 		return updatedUser;
 	}
 
 	async delete(id, user = null) {
 		const targetUser = await this.findById(id);
-		
+
 		// Si se proporciona un usuario, verificar autorización
 		if (user && !this.#checkAuthorization(user, id)) {
 			throw boom.forbidden(AUTH_MESSAGES.FORBIDDEN);
 		}
-		
+
 		await targetUser.destroy();
 		return { id };
 	}

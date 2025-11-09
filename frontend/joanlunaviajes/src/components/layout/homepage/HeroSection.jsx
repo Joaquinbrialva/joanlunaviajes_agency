@@ -1,12 +1,15 @@
 import { Link } from 'react-router-dom';
 import '../../../styles/layout/HeroSection.css';
+import CTAButton from '../CTAButton';
+import HeroImg from '../../../assets/images/hero-img.png';
+
 // import heroImg from '../../assets/images/hero-img.jpg';
 
 export default function HeroSection() {
-  return (
-    <div className='hero-container'>
-      {/* Video de fondo */}
-      {/* <video
+	return (
+		<div className='hero-container'>
+			{/* Video de fondo */}
+			{/* <video
         className='hero-video'
         autoPlay
         loop
@@ -21,20 +24,22 @@ export default function HeroSection() {
         Tu navegador no soporta videos de fondo.
       </video> */}
 			<div className='hero-img'>
-				<img src={''} alt='Hero Image' />
+				<img src={HeroImg} alt='Hero Image' />
 			</div>
 
-      {/* Contenido sobre el video */}
-      <div className='hero-content'>
-        <h1>Descubre el mundo con Joanlunaviajes</h1>
-        <p>
-          Planifica tu próxima aventura con nosotros. Ofrecemos experiencias
-          únicas y personalizadas para cada viajero.
-        </p>
-        <Link to='/solicitud-viaje' className='hero-button'>
-          Solicitar un viaje
-        </Link>
-      </div>
-    </div>
-  );
+			{/* Contenido sobre el video */}
+			<div className='hero-content'>
+				<h1>Descubre el mundo con Joanlunaviajes</h1>
+				<p>
+					Planifica tu próxima aventura con nosotros. Ofrecemos experiencias
+					únicas y personalizadas para cada viajero.
+				</p>
+				<div className='hero-button-container'>
+					<Link to='/solicitud-viaje'>
+						<CTAButton text='SOLICITAR UN VIAJE' />
+					</Link>
+				</div>
+			</div>
+		</div>
+	);
 }

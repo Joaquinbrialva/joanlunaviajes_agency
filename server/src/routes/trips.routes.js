@@ -8,6 +8,7 @@ const {
 } = require('../controllers/trips.controller');
 
 const { checkJwt } = require('../middlewares/auth');
+const { upload } = require('../middlewares/multer');
 const setUserId = require('../middlewares/setUserId');
 const { validatorHandler } = require('../middlewares/validator.handler');
 const {
@@ -16,19 +17,16 @@ const {
 	updateTripSchema,
 } = require('../schemas/trip.schema');
 
-const { upload, normalizeTripBody } = require('../middlewares/multer');
-
 router.get('/', getAllTrips);
 router.get('/:tripId', validatorHandler(getTripSchema, 'params'), getTripById);
 
 router.post(
 	'/',
 	checkJwt(),
-	upload.array('photos'),       // aceptar múltiples fotos
+	upload.single('image'),
 	setUserId,
-	normalizeTripBody,            // usa el middleware modularizado
-	validatorHandler(createTripSchema, 'body'),
-	createTrip
+	validatorHandler(createTripSchema, 'body'), // ✅ luego validación del body
+	createTrip // ✅ finalmente, lógica del negocio
 );
 
 router.patch(

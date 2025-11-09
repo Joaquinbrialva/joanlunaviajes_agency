@@ -1,15 +1,17 @@
 const Joi = require('joi');
 
 const id = Joi.string().uuid();
-const title = Joi.string().max(20);
-const description = Joi.string().max(100);
+const title = Joi.string().max(50);
 const origin = Joi.string();
 const destination = Joi.string();
 const departureDate = Joi.date();
 const returnDate = Joi.date();
-const photos = Joi.array().items(Joi.string());
-const price = Joi.number().precision(2);
-const notes = Joi.string().max(100);
+const isRoundTrip = Joi.boolean();
+const passengers = Joi.number().integer().allow(null);
+const image = Joi.string();
+const price = Joi.number().precision(2).allow(null);
+const description = Joi.string().max(200).allow('');
+const notes = Joi.string().max(200).allow('');
 const userId = Joi.string();
 
 const createTripSchema = Joi.object({
@@ -17,10 +19,12 @@ const createTripSchema = Joi.object({
 	description,
 	origin: origin.required(),
 	destination: destination.required(),
-	departureDate: departureDate.required(),
+	departureDate,
 	returnDate,
+	isRoundTrip,
+	passengers,
 	price,
-	photos: photos.required(),
+	image,
 	notes,
 	userId: userId.required(),
 });
@@ -32,7 +36,9 @@ const updateTripSchema = Joi.object({
 	destination: destination.optional(),
 	departureDate,
 	returnDate,
-	photos: photos.optional(),
+	isRoundTrip,
+	passengers,
+	image: image.optional(),
 	price,
 	notes,
 	userId: userId.optional(),

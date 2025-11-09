@@ -8,8 +8,10 @@ import ClientTestimonialsSection from '../components/layout/homepage/ClientTesti
 import '../styles/layout/Homepage.css';
 import BenefitsSection from '../components/layout/homepage/BenefitsSection';
 import FooterSection from '../components/layout/homepage/FooterSection';
+import { useFetchOffers } from '../hooks/useFetchOffers';
 export default function Homepage() {
-	const offers = cardsData?.offers ?? [];
+	const { trips, loading } = useFetchOffers();
+
 	const destinations = cardsData?.destinations ?? [];
 	const testimonials = cardsData?.testimonials ?? [];
 
@@ -26,11 +28,14 @@ export default function Homepage() {
 			<section className='home-cards'>
 				<CardsSection
 					title='Ofertas Destacadas'
-					cards={offers}
+					cards={trips}
 					CardComponent={OfferCard}
 					showArrow
 					arrowText='Ver todas las ofertas'
+					loading={loading}
+					rows={1}
 				/>
+
 				<CardsSection
 					title='Destinos Destacados'
 					cards={destinations}

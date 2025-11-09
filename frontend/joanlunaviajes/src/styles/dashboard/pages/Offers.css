@@ -1,8 +1,36 @@
 .offers-container {
-  width: 100%;
-  min-height: 100%;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	gap: 24px;
+	background-color: #f8f9fa;
+}
+
+.offers-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-bottom: 16px;
+	/* border-bottom: 1px solid #e9ecef; */
 }
 
 .offers-title {
-  font-size: 2rem;
+	font-size: 24px;
+	color: #2c3e50;
+	margin: 0;
+	font-weight: 600;
+}
+
+@media (max-width: 768px) {
+	.offers-container {
+		padding: 16px;
+	}
+
+	.offers-header {
+		flex-direction: column;
+		gap: 16px;
+		align-items: flex-start;
+	}
 }
