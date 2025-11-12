@@ -10,12 +10,18 @@ import Agents from './pages/admin/dashboard/Agents';
 import Permissions from './pages/admin/dashboard/Permissions';
 import Settings from './pages/admin/dashboard/Settings';
 import OffersPage from './pages/OffersPage';
+import MainLayout from './pages/MainLayout';
 
 function App() {
 	return (
 		<Routes>
-			<Route index element={<Homepage />} />
-			<Route path='ofertas' element={<OffersPage />} />
+			{/* Páginas públicas con Navbar */}
+			<Route element={<MainLayout />}>
+				<Route index element={<Homepage />} />
+				<Route path='ofertas' element={<OffersPage />} />
+			</Route>
+
+			{/* Dashboard sin Navbar */}
 			<Route path='dashboard' element={<AdminDashboard />}>
 				<Route index element={<HomeDashboard />} />
 				<Route path='ofertas' element={<Offers />} />

@@ -2,10 +2,9 @@
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
-}
-
-.cards-section-container > *:nth-child(n + 2) {
-	margin-bottom: 20px;
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 1rem;
 }
 
 .cards-section-header {
@@ -36,8 +35,7 @@
 }
 
 .cards-section-grid {
-	display: flex;
-	flex-wrap: wrap;
+	display: grid;
 	gap: 1rem;
 	opacity: 0;
 	transform: translateY(10px);
@@ -49,10 +47,35 @@
 	transform: translateY(0);
 }
 
+/* 🧭 Por defecto */
+.cards-section-grid.default {
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+/* 💸 Ofertas: cards grandes → menos por fila */
+.cards-section-grid.offers {
+	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+/* ✈️ Destinos: cards más pequeñas → más por fila */
+.cards-section-grid.destinations {
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+/* 💬 Testimonios u otros */
+.cards-section-grid.testimonials {
+	grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
 /* Skeleton visible mientras carga */
 .cards-section-grid.loading {
 	opacity: 1;
 	transform: none;
+}
+
+.no-data-container {
+	width: 100%;
+	text-align: center;
 }
 
 @media (max-width: 1024px) {

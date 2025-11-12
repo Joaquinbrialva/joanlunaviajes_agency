@@ -10,7 +10,6 @@ export default function OfferCard({
 	alt_text,
 	price,
 }) {
-	console.log(image);
 	return (
 		<div className='offer-card-container'>
 			<div className='offer-card-img-container'>
@@ -21,12 +20,11 @@ export default function OfferCard({
 			</div>
 
 			<div className='offer-card-info-container'>
-				<div className='offer-card-route'>
+				<p className='offer-card-route'>
+					<span>{origin}</span>
 					<FaPlaneDeparture className='offer-card-icon' />
-					<p>
-						{origin} → {destination}
-					</p>
-				</div>
+					<span>{destination}</span>
+				</p>
 
 				<div className='offer-card-title-container'>
 					<p className='offer-card-title'>{title}</p>

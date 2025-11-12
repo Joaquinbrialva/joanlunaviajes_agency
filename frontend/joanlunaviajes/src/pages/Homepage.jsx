@@ -1,4 +1,3 @@
-import Navbar from '../components/navigation/Navbar';
 import HeroSection from '../components/layout/homepage/HeroSection';
 import CardsSection from '../components/layout/homepage/CardsSection';
 import OfferCard from '../components/cards/OfferCard';
@@ -7,7 +6,6 @@ import DestinationCard from '../components/cards/DestinationCard';
 import ClientTestimonialsSection from '../components/layout/homepage/ClientTestimonialsSection';
 import '../styles/layout/Homepage.css';
 import BenefitsSection from '../components/layout/homepage/BenefitsSection';
-import FooterSection from '../components/layout/homepage/FooterSection';
 import { useFetchOffers } from '../hooks/useFetchOffers';
 export default function Homepage() {
 	const { trips, loading } = useFetchOffers();
@@ -16,10 +14,6 @@ export default function Homepage() {
 
 	return (
 		<main className='home-container'>
-			<header className='home-navbar'>
-				<Navbar />
-			</header>
-
 			<section className='home-hero'>
 				<HeroSection />
 			</section>
@@ -32,7 +26,8 @@ export default function Homepage() {
 					showArrow
 					arrowText='Ver todas las ofertas'
 					loading={loading}
-					rows={2}
+					rows={1}
+					variant='offers' // 👈 grid más grande
 				/>
 
 				<CardsSection
@@ -41,6 +36,7 @@ export default function Homepage() {
 					CardComponent={DestinationCard}
 					showArrow
 					arrowText='Ver todos los destinos'
+					variant='destinations' // 👈 grid más compacto
 				/>
 			</section>
 
@@ -51,10 +47,6 @@ export default function Homepage() {
 			<section className='home-benefits'>
 				<BenefitsSection />
 			</section>
-
-			<footer className='home-footer'>
-				<FooterSection />
-			</footer>
 		</main>
 	);
 }
