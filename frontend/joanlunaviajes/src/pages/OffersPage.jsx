@@ -1,18 +1,18 @@
-import OfferCard from '../components/cards/OfferCard';
+import OfferCardOffersPage from '../components/cards/OfferCardOffersPage';
+import OfferCardHomepage from '../components/cards/OfferCardHomepage';
 import CardsSection from '../components/layout/homepage/CardsSection';
 import SectionHeader from '../components/layout/homepage/SectionHeader';
-import { useFetchOffers } from '../hooks/useFetchOffers';
+import { useFetchOffers } from '../hooks/offer/useFetchOffers';
 import '../styles/pages/OffersPage.css';
 
 export default function OffersPage() {
-	const { trips, loading, error } = useFetchOffers();
-
+	const { offers, loading } = useFetchOffers();
 	return (
-		<div>
-			<SectionHeader title='Ofertas de Viaje' />
+		<div className='offers-page-container'>
 			<CardsSection
-				cards={trips}
-				CardComponent={OfferCard}
+				title='Ofertas de viaje'
+				cards={offers}
+				CardComponent={OfferCardOffersPage}
 				arrowText='Ver todas las ofertas'
 				loading={loading}
 			/>

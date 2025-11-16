@@ -1,17 +1,18 @@
 import { useState } from 'react';
 import '../../../styles/dashboard/pages/Offers.css';
-import FormModal from '../../../components/dashboard/layout/FormModal';
+import Form from '../../../components/dashboard/layout/Form';
 import CTAButton from '../../../components/layout/CTAButton';
 import Table from '../../../components/dashboard/layout/Table';
 import Divider from '@mui/material/Divider';
-import { useFetchOffers } from '../../../hooks/useFetchOffers';
+import { useFetchOffers } from '../../../hooks/offer/useFetchOffers';
+import { Modal } from '@mui/material';
 
 function Offers() {
 	const [isOpen, setIsOpen] = useState(false);
-	const { trips, setTrips, loading, error, refetch } = useFetchOffers();
+	const { offers, setOffers, loading, error, refetch } = useFetchOffers();
 
-	const handleTripCreated = (newTrip) => {
-		setTrips((prev) => [newTrip, ...prev]); // agrega el nuevo viaje al principio
+	const handleOfferCreate = (newOffer) => {
+		setOffers((prev) => [newOffer, ...prev]); // agrega el nuevo viaje al principio
 	};
 
 	return (
@@ -30,7 +31,7 @@ function Offers() {
 			{/* TABLE SECTION */}
 			<div className='offers-table-container'>
 				<Table
-					data={trips}
+					data={offers}
 					loading={loading}
 					onRefresh={refetch}
 					onError={error ? { message: error } : null}
@@ -38,13 +39,18 @@ function Offers() {
 			</div>
 
 			{/* MODAL */}
-			{isOpen && (
-				<FormModal
+			<Modal
+				open={isOpen}
+				onClose={isOpen}
+				disableEscapeKeyDown
+				className='modal'
+			>
+				<Form
 					mode='offer'
 					onClose={() => setIsOpen(false)}
-					onNewItem={handleTripCreated} // Solo actualiza datos
+					onNewItem={handleOfferCreate}
 				/>
-			)}
+			</Modal>
 		</div>
 	);
 }

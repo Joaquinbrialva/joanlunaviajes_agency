@@ -7,7 +7,6 @@ export default function BenefitsSection() {
 	return (
 		<section className='benefits-section'>
 			<div className='benefit-subtitle-container'>
-				<SectionHeader title='¿Por qué elegirnos?' />
 				<SectionHeader title='Beneficios de viajar con Joanlunaviajes®' />
 				<p className='benefits-description'>
 					Descubre por qué somos la mejor opción para planificar tus viajes.

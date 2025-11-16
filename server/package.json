@@ -13,7 +13,12 @@
 		"migrations:run": "sequelize-cli db:migrate",
 		"migrations:revert": "sequelize-cli db:migrate:undo",
 		"migrations:delete": "sequelize-cli db:migrate:undo:all",
-		"migrations:delete:name": "sequelize-cli db:migrate:undo --name"
+		"migrations:revert:name": "sequelize-cli db:migrate:undo --name",
+		"seed:generate": "sequelize-cli seed:generate --name",
+		"seed:run": "sequelize-cli db:seed:all",
+		"seed:run:name": "sequelize-cli db:seed --seed",
+		"seed:revert": "sequelize-cli db:seed:undo",
+		"seed:revert:name": "sequelize-cli db:seed:undo --name"
 	},
 	"devDependencies": {
 		"jest": "^30.2.0",

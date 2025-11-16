@@ -63,16 +63,17 @@ const userSchema = {
 
 class User extends Model {
 	static associate(models) {
-		// Un usuario puede tener muchos viajes
-		this.hasMany(models.Trip, {
-			as: 'trips',
-			foreignKey: 'userId'
+		this.hasMany(models.Review, {
+			as: 'reviews',
+			foreignKey: 'userId',
 		});
-		
-		// Un usuario puede tener muchas solicitudes
-		this.hasMany(models.Request, {
-			as: 'requests',
-			foreignKey: 'userId'
+		this.hasMany(models.Offer, {
+			as: 'offers',
+			foreignKey: 'userId',
+		});
+		this.hasMany(models.Booking, {
+			as: 'bookings',
+			foreignKey: 'userId',
 		});
 	}
 
@@ -83,11 +84,20 @@ class User extends Model {
 			modelName: 'User',
 			hooks: {
 				beforeCreate: async (user) => {
-					const hashedPassword = await bcrypt.hash(user.password, 10);
-					user.password = hashedPassword;
+					user.password = await bcrypt.hash(user.password, 10);
+				},
+				beforeUpdate: async (user) => {
+					if (user.changed('password')) {
+						user.password = await bcrypt.hash(user.password, 10);
+					}
 				},
 			},
 		};
+	}
+
+	// Método de instancia opcional
+	async validatePassword(password) {
+		return await bcrypt.compare(password, this.password);
 	}
 }
 

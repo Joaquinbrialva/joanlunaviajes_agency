@@ -1,6 +1,6 @@
 // src/api/endpoints.js
 export const ENDPOINTS = {
-	trips: '/trips',
+	offers: '/offers',
 	users: '/users',
 	auth: {
 		login: '/auth/login',

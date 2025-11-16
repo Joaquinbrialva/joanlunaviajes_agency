@@ -57,11 +57,6 @@
 	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 }
 
-/* ✈️ Destinos: cards más pequeñas → más por fila */
-.cards-section-grid.destinations {
-	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-}
-
 /* 💬 Testimonios u otros */
 .cards-section-grid.testimonials {
 	grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));

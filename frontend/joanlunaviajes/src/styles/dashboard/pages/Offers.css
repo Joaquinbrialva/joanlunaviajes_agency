@@ -23,6 +23,9 @@
 	font-weight: 600;
 }
 
+.modal {
+}
+
 @media (max-width: 768px) {
 	.offers-container {
 		padding: 16px;

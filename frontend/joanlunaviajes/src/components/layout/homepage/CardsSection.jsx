@@ -15,7 +15,6 @@ export default function CardsSection({
 	const Component = CardComponent;
 	const cardsPerRow = 3;
 	const visibleCards = rows ? cards.slice(0, rows * cardsPerRow) : cards;
-
 	return (
 		<section className={`cards-section-container cards-${variant}`}>
 			<SectionHeader
@@ -48,7 +47,7 @@ export default function CardsSection({
 						<span>No hay datos</span>
 					</div>
 				) : (
-					visibleCards.map((card) => <Component key={card.id} {...card} />)
+					visibleCards.map((card) => <Component key={card.id} props={card} />)
 				)}
 			</div>
 		</section>

@@ -5,11 +5,15 @@ const id = Joi.string().uuid();
 const name = Joi.string().min(2).max(50).trim();
 const lastName = Joi.string().min(2).max(50).trim();
 const email = Joi.string().email().trim().lowercase();
-const password = Joi.string()
-	.min(8)
-	.message(PASSWORD_MESSAGES.PASSWORD_MIN_LENGTH)
-	.max(20)
-	.message(PASSWORD_MESSAGES.PASSWORD_MAX_LENGTH);
+const password = Joi.string();
+// .min(8)
+// .max(30)
+// .pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$'))
+// .messages({
+// 	'string.pattern.base': PASSWORD_MESSAGES.WEAK_PASSWORD,
+// 	'string.min': PASSWORD_MESSAGES.MIN_LENGTH,
+// 	'string.max': PASSWORD_MESSAGES.MAX_LENGTH,
+// });
 const phone = Joi.string().allow(null);
 const country = Joi.string().min(2).max(100).trim().allow(null);
 const city = Joi.string().min(2).max(100).trim().allow(null);
@@ -26,7 +30,7 @@ const createUserSchema = Joi.object({
 	}),
 	country,
 	city,
-	role
+	role,
 });
 
 const updateUserSchema = Joi.object({
@@ -37,7 +41,7 @@ const updateUserSchema = Joi.object({
 	phone,
 	country,
 	city,
-	role
+	role,
 });
 
 const getUserSchema = Joi.object({

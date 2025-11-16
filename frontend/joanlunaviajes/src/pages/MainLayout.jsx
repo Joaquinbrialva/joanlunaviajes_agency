@@ -5,7 +5,7 @@ import '../styles/layout/MainLayout.css';
 
 export default function MainLayout() {
 	return (
-		<div className='main-layout'>
+		<div>
 			<header>
 				<Navbar />
 			</header>

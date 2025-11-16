@@ -1,57 +1,13 @@
 import '../../../styles/dashboard/layout/Table.css';
 import Loader from '../../../components/ui/Loader';
+import { dateFormatter } from '../../../utils/dateFormatter-dashboard';
+import useDeleteOffer from '../../../hooks/offer/useDeleteOffer';
 
 export default function Table({ data = [], onRefresh, loading, onError }) {
-	async function deleteOffer(id) {
-		try {
-			const response = await fetch(`http://localhost:3000/api/v1/trips/${id}`, {
-				method: 'DELETE',
-				headers: {
-					Authorization: `Bearer ${localStorage.getItem('token')}`,
-				},
-			});
-
-			if (!response.ok) {
-				const errorData = await response.json();
-				throw new Error(errorData.message || 'Error al eliminar la oferta');
-			}
-
-			await onRefresh?.(); // ✅ refresca solo si la eliminación fue exitosa
-		} catch (err) {
-			console.error('❌ Error al eliminar:', err);
-			alert('No se pudo eliminar la oferta. Inténtalo nuevamente.');
-		}
-	}
-
-	function formatDate(departureDate, returnDate) {
-		const format = (date) =>
-			new Date(date).toLocaleDateString('es-AR', {
-				day: '2-digit',
-				month: '2-digit',
-				year: 'numeric',
-			});
-
-		// Si no hay ninguna fecha
-		if (!departureDate && !returnDate) return 'No aplica';
-
-		// Si solo hay fecha de salida
-		if (departureDate && !returnDate)
-			return `${format(departureDate)} | Sin retorno`;
-
-		// Si hay ambas fechas
-		if (departureDate && returnDate)
-			return `${format(departureDate)} al ${format(returnDate)}`;
-
-		return 'Fecha no disponible';
-	}
-
-	const handleEdit = (id) => {
-		console.log('Editando viaje:', id);
-	};
-
+	const { deleteOffer, loading: deleting } = useDeleteOffer();
 	const handleDelete = (id) => {
 		if (window.confirm('¿Estás seguro de que deseas eliminar esta oferta?')) {
-			deleteOffer(id);
+			deleteOffer(id, onRefresh);
 		}
 	};
 
@@ -66,7 +22,7 @@ export default function Table({ data = [], onRefresh, loading, onError }) {
 				)}
 
 				{/* Loader o tabla */}
-				{loading ? (
+				{loading || deleting ? (
 					<div className='loader-wrapper'>
 						<Loader />
 					</div>
@@ -85,32 +41,31 @@ export default function Table({ data = [], onRefresh, loading, onError }) {
 								</tr>
 							</thead>
 							<tbody>
-								{data.map((item) => (
-									<tr key={item.id}>
-										<td title={item.title}>{item.title}</td>
-										<td title={item.origin}>{item.origin}</td>
-										<td title={item.destination}>{item.destination}</td>
-										<td>{formatDate(item.departureDate, item.returnDate)}</td>
-										<td>${Number(item.price).toFixed(2)}</td>
+								{data.map((offer) => (
+									<tr key={offer.id}>
+										<td title={offer.title}>{offer.title}</td>
+										<td title={offer.destination?.name}>
+											{offer.destination?.name}
+										</td>
+										<td title={offer.destination?.name}>
+											{offer.destination?.name}
+										</td>
+										<td>{dateFormatter(offer.startDate, offer.endDate)}</td>
+										<td>${offer.price.toLocaleString('es-AR')}</td>
 										<td>
 											<span
 												className={`status-badge ${
-													item.status ? 'active' : 'inactive'
+													offer.status ? 'active' : 'inactive'
 												}`}
 											>
-												{item.status ? 'Activa' : 'Inactiva'}
+												{offer.status ? 'Activa' : 'Inactiva'}
 											</span>
 										</td>
 										<td>
 											<div className='actions-wrapper'>
+												<button title='Editar oferta'>Editar</button>
 												<button
-													onClick={() => handleEdit(item.id)}
-													title='Editar oferta'
-												>
-													Editar
-												</button>
-												<button
-													onClick={() => handleDelete(item.id)}
+													onClick={() => handleDelete(offer.id)}
 													title='Eliminar oferta'
 												>
 													Eliminar
@@ -121,7 +76,6 @@ export default function Table({ data = [], onRefresh, loading, onError }) {
 								))}
 							</tbody>
 						</table>
-
 						{!loading && data.length === 0 && (
 							<div className='table-no-results'>
 								No se encontraron resultados

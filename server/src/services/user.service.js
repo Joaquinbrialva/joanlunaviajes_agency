@@ -2,7 +2,6 @@ const { config } = require('../../config/config');
 const boom = require('@hapi/boom');
 const { models } = require('../../db/connection/connection');
 const { ERROR_MESSAGES, AUTH_MESSAGES } = require('../utils/messages');
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 // Constantes para roles
@@ -38,7 +37,8 @@ class UserService {
 
 	async logIn(data) {
 		const user = await this.findByEmailWithPassword(data.email);
-		if (!user || !(await bcrypt.compare(data.password, user.password))) {
+
+		if (!user || !(await user.validatePassword(data.password))) {
 			throw boom.unauthorized(ERROR_MESSAGES.DATA_VALIDATION_FAILED);
 		}
 

@@ -49,8 +49,8 @@
 body {
 	height: 100%;
 	margin: 0 auto;
-	background-color: var(--background-light-color);
 	overflow-x: hidden;
+	background: linear-gradient(180deg, #fffaf5 0%, #ffffff 100%);
 }
 
 /* todos los h tienen que tener margin 0 */
