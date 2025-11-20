@@ -1,10 +1,12 @@
 import '../../../styles/dashboard/layout/Table.css';
-import Loader from '../../../components/ui/Loader';
 import { dateFormatter } from '../../../utils/dateFormatter-dashboard';
 import useDeleteOffer from '../../../hooks/offer/useDeleteOffer';
+import { CircularProgress, Skeleton } from '@mui/material';
+import TableSkeleton from './TableSkeleton';
 
 export default function Table({ data = [], onRefresh, loading, onError }) {
 	const { deleteOffer, loading: deleting } = useDeleteOffer();
+
 	const handleDelete = (id) => {
 		if (window.confirm('¿Estás seguro de que deseas eliminar esta oferta?')) {
 			deleteOffer(id, onRefresh);
@@ -20,11 +22,9 @@ export default function Table({ data = [], onRefresh, loading, onError }) {
 						<p>⚠️ {onError.message || 'Ocurrió un error inesperado.'}</p>
 					</div>
 				)}
-
-				{/* Loader o tabla */}
 				{loading || deleting ? (
 					<div className='loader-wrapper'>
-						<Loader />
+						<TableSkeleton />
 					</div>
 				) : (
 					<>
@@ -44,12 +44,8 @@ export default function Table({ data = [], onRefresh, loading, onError }) {
 								{data.map((offer) => (
 									<tr key={offer.id}>
 										<td title={offer.title}>{offer.title}</td>
-										<td title={offer.destination?.name}>
-											{offer.destination?.name}
-										</td>
-										<td title={offer.destination?.name}>
-											{offer.destination?.name}
-										</td>
+										<td>{offer.origin?.name}</td>
+										<td>{offer.destination?.name}</td>
 										<td>{dateFormatter(offer.startDate, offer.endDate)}</td>
 										<td>${offer.price.toLocaleString('es-AR')}</td>
 										<td>
@@ -63,11 +59,8 @@ export default function Table({ data = [], onRefresh, loading, onError }) {
 										</td>
 										<td>
 											<div className='actions-wrapper'>
-												<button title='Editar oferta'>Editar</button>
-												<button
-													onClick={() => handleDelete(offer.id)}
-													title='Eliminar oferta'
-												>
+												<button>Editar</button>
+												<button onClick={() => handleDelete(offer.id)}>
 													Eliminar
 												</button>
 											</div>
@@ -76,6 +69,7 @@ export default function Table({ data = [], onRefresh, loading, onError }) {
 								))}
 							</tbody>
 						</table>
+
 						{!loading && data.length === 0 && (
 							<div className='table-no-results'>
 								No se encontraron resultados

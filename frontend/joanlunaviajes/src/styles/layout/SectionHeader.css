@@ -10,18 +10,6 @@
 	color: var(--text-dark-color);
 }
 
-.section-header-arrow {
-	display: flex;
-	align-items: center;
-	justify-content: flex-end;
-	cursor: pointer;
-	transition: transform 0.2s ease;
-}
-
-.section-header-arrow:hover {
-	transform: translateX(4px);
-}
-
 /* ======= RESPONSIVE ======= */
 @media (max-width: 768px) {
 	.section-header-container {

@@ -1,44 +1,36 @@
+/* ViewAllArrow.css */
+
 .arrow-container {
 	display: inline-flex;
 	align-items: center;
-	gap: 10px;
 	cursor: pointer;
-	padding: 8px 16px;
+	padding: 5px;
 	border-radius: 8px;
-	transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-		transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-	will-change: transform;
+	transition: background-color 0.3s ease;
 }
 
-.arrow-container:hover {
-	background-color: rgba(0, 0, 0, 0.05);
-	transform: translateX(4px);
-}
-
-.arrow-text {
+.arrow-text,
+.arrow-icon {
 	color: var(--text-dark-color);
-	transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	font-weight: 500;
+	transition: color 0.3s ease,
+		transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* --- Hover: desplazamiento suave hacia la derecha --- */
+.arrow-container:hover .arrow-text,
+.arrow-container:hover .arrow-icon {
+	color: var(--primary-light-color);
+	transform: translateX(6px); /* Más suave y visible */
 }
 
 .arrow-icon {
 	color: var(--text-dark-color);
-	transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-		transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	font-weight: 500;
-	will-change: transform;
-}
-
-.arrow-container:hover .arrow-text,
-.arrow-container:hover .arrow-icon {
-	color: var(--primary-light-color);
+	display: inline-block; /* CLAVE para que el transform sea suave */
+	transition: color 0.3s ease, transform 0.3s ease !important;
 }
 
 .arrow-container:hover .arrow-icon {
-	transform: translateX(4px);
+	transform: translateX(6px);
 }
-
-.offer-card-info-container {
-	padding: 8px;
-}
-/* ... (resto de tu código CSS) ... */

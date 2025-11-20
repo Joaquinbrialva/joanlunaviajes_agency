@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import '../../../styles/layout/HeroSection.css';
 import CTAButton from '../CTAButton';
 import HeroImg from '../../../assets/images/hero-img.png';
-import { PiCursorClickBold } from "react-icons/pi";
+import { AdsClick } from '@mui/icons-material';
 
 // import heroImg from '../../assets/images/hero-img.jpg';
 
@@ -37,7 +37,7 @@ export default function HeroSection() {
 				</p>
 				<div className='hero-button-container'>
 					<Link to='/solicitud-viaje'>
-						<CTAButton text='COTIZA EN UN CLICK' icon={<PiCursorClickBold />} />
+						<CTAButton text='COTIZA EN UN CLICK' icon={<AdsClick />} />
 					</Link>
 				</div>
 			</div>

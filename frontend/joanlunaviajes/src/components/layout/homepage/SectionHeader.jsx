@@ -11,7 +11,7 @@ export default function SectionHeader({
 		<div className='section-header-container'>
 			<SectionTitle text={<span>{title}</span>} />
 			{showArrow && (
-				<div className='section-header-arrow'>
+				<div className='section-header__text-arrow'>
 					<ViewAllArrow text={arrowText} />
 				</div>
 			)}

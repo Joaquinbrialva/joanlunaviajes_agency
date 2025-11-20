@@ -1,0 +1,10 @@
+.table-skeleton th,
+.table-skeleton td {
+	padding: 20px;
+}
+
+.table-skeleton .actions-wrapper {
+	display: flex;
+	gap: 16px;
+	align-items: center;
+}

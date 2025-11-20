@@ -1,4 +1,4 @@
-import { FaFacebook, FaInstagram, FaWhatsapp } from 'react-icons/fa6';
+import { WhatsApp, Instagram, Facebook } from '@mui/icons-material';
 import '../../../styles/layout/FooterSection.css';
 export default function FooterSection() {
 	return (
@@ -6,9 +6,9 @@ export default function FooterSection() {
 			<div className='footer-content'>
 				<div className='footer-social'>
 					<p>Contacto:</p>
-					<FaWhatsapp className='footer-icon' />
-					<FaInstagram className='footer-icon' />
-					<FaFacebook className='footer-icon' />
+					<WhatsApp className='footer-icon' />
+					<Instagram className='footer-icon' />
+					<Facebook className='footer-icon' />
 				</div>
 				<div className='footer-rights'>
 					<p>Avenida Corrientes 2174 | LOCAL 192 - CABA</p>

@@ -11,10 +11,6 @@ function Offers() {
 	const [isOpen, setIsOpen] = useState(false);
 	const { offers, setOffers, loading, error, refetch } = useFetchOffers();
 
-	const handleOfferCreate = (newOffer) => {
-		setOffers((prev) => [newOffer, ...prev]); // agrega el nuevo viaje al principio
-	};
-
 	return (
 		<div className='offers-container'>
 			{/* HEADER */}
@@ -26,7 +22,6 @@ function Offers() {
 					className='cta-button-offer__add'
 				/>
 			</div>
-			<Divider variant='middle' />
 
 			{/* TABLE SECTION */}
 			<div className='offers-table-container'>
@@ -39,18 +34,8 @@ function Offers() {
 			</div>
 
 			{/* MODAL */}
-			<Modal
-				open={isOpen}
-				onClose={isOpen}
-				disableEscapeKeyDown
-				className='modal'
-			>
-				<Form
-					mode='offer'
-					onClose={() => setIsOpen(false)}
-					onNewItem={handleOfferCreate}
-				/>
-			</Modal>
+			{/* <Modal open={isOpen} onClose={isOpen}></Modal> */}
+			<Form />
 		</div>
 	);
 }
