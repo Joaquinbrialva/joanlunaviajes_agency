@@ -1,6 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
 
-export function useFetchOffers(url = 'http://localhost:3000/api/v1/offers') {
+export function useFetchOffers(
+	url = 'http://localhost:3000/api/v1/offers?limit=30'
+) {
 	const [offers, setOffers] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);

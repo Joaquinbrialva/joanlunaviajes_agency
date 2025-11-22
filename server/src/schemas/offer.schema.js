@@ -14,9 +14,11 @@ const included = Joi.array().items(Joi.string());
 const notIncluded = Joi.array().items(Joi.string());
 const policies = Joi.string().max(500).allow('');
 const images = Joi.array().items(Joi.string());
-const destinationId = Joi.number().integer();
-const categoryId = Joi.number().integer();
-const agentId = Joi.number().integer();
+const origin = Joi.string().max(100).allow('');
+const destinationId = Joi.string().uuid();
+const categoryId = Joi.string().uuid();
+const agentId = Joi.string().uuid();
+const isRoundTrip = Joi.boolean();
 
 const createOfferSchema = Joi.object({
 	title: title.required(),
@@ -30,8 +32,10 @@ const createOfferSchema = Joi.object({
 	highlighted,
 	included,
 	notIncluded,
+	isRoundTrip,
 	policies,
 	images,
+	origin,
 	destinationId: destinationId.required(),
 	categoryId: categoryId.required(),
 	agentId: agentId.required(),
@@ -49,8 +53,10 @@ const updateOfferSchema = Joi.object({
 	highlighted,
 	included,
 	notIncluded,
+	isRoundTrip,
 	policies,
 	images,
+	origin,
 	destinationId,
 	categoryId,
 	agentId,

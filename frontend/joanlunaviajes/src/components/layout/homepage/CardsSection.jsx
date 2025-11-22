@@ -1,5 +1,5 @@
 import SectionHeader from './SectionHeader';
-import '../../../styles/layout/CardsSection.css';
+import styles from '../../../styles/layout/CardsSection.module.css';
 import { Box, Skeleton } from '@mui/material';
 
 export default function CardsSection({
@@ -7,27 +7,25 @@ export default function CardsSection({
 	showArrow = false,
 	cards = [],
 	CardComponent,
+	cardProps = {},
 	arrowText = '',
 	loading = false,
 	rows,
-	variant = 'default', // 👈 "offers", "destinations", etc.
 }) {
 	const Component = CardComponent;
 	const cardsPerRow = 3;
 	const visibleCards = rows ? cards.slice(0, rows * cardsPerRow) : cards;
 	return (
-		<section className={`cards-section-container cards-${variant}`}>
-			<SectionHeader
-				title={title}
-				showArrow={showArrow}
-				arrowText={arrowText}
-			/>
+		<section className={styles.container}>
+			<div className={styles.header}>
+				<SectionHeader
+					title={title}
+					showArrow={showArrow}
+					arrowText={arrowText}
+				/>
+			</div>
 
-			<div
-				className={`cards-section-grid ${variant} ${
-					loading ? 'loading' : 'loaded'
-				}`}
-			>
+			<div className={loading ? styles.loading : styles.cards}>
 				{loading ? (
 					Array.from({ length: (rows || 1) * cardsPerRow }).map((_, i) => (
 						<Box key={i} sx={{ width: '100%', borderRadius: 2 }}>
@@ -43,11 +41,13 @@ export default function CardsSection({
 						</Box>
 					))
 				) : visibleCards.length === 0 ? (
-					<div className='no-data-container'>
+					<div className={styles.noData}>
 						<span>No hay datos</span>
 					</div>
 				) : (
-					visibleCards.map((card) => <Component key={card.id} props={card} />)
+					visibleCards.map((card) => (
+						<Component key={card.id} {...card} {...cardProps} />
+					))
 				)}
 			</div>
 		</section>

@@ -55,6 +55,10 @@ const offerSchema = {
 		type: DataTypes.ARRAY(DataTypes.STRING),
 		allowNull: true,
 	},
+	isRoundTrip: {
+		type: DataTypes.BOOLEAN,
+		allowNull: true,
+	},
 	policies: {
 		type: DataTypes.STRING(500),
 		allowNull: true,
@@ -68,6 +72,10 @@ const offerSchema = {
 		type: DataTypes.BOOLEAN,
 		allowNull: false,
 		defaultValue: true,
+	},
+	origin: {
+		type: DataTypes.STRING(100),
+		allowNull: true,
 	},
 	destinationId: {
 		type: DataTypes.UUID,

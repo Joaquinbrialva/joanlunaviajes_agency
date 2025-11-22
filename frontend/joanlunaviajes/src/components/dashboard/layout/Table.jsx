@@ -1,7 +1,6 @@
 import '../../../styles/dashboard/layout/Table.css';
-import { dateFormatter } from '../../../utils/dateFormatter-dashboard';
+import { dateFormatter } from '../../../utils/helpers-cards';
 import useDeleteOffer from '../../../hooks/offer/useDeleteOffer';
-import { CircularProgress, Skeleton } from '@mui/material';
 import TableSkeleton from './TableSkeleton';
 
 export default function Table({ data = [], onRefresh, loading, onError }) {

@@ -1,0 +1,35 @@
+.detailsWrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.dates {
+	font-size: 14px;
+	color: #777;
+	margin: 0;
+}
+
+.rating {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 14px;
+	color: #444;
+}
+
+.rating small {
+	color: #777;
+}
+
+.included {
+	margin: 8px 0 0;
+	padding-left: 18px;
+	font-size: 13px;
+	color: #555;
+}
+
+.more {
+	color: #0066cc;
+	font-weight: 500;
+}

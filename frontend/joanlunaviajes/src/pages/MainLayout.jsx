@@ -13,10 +13,6 @@ export default function MainLayout() {
 			<main>
 				<Outlet /> {/* Aquí se renderizan las páginas hijas */}
 			</main>
-
-			<footer>
-				<FooterSection />
-			</footer>
 		</div>
 	);
 }
