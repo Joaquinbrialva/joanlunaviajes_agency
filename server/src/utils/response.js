@@ -55,64 +55,52 @@ const created = (
 	return sendResponse(res, 201, message, data);
 };
 
-// Respuesta de error
-const error = (res, statusCode, message, details = null) => {
+// Respuesta de error - SIEMPRE envía message como string simple
+const error = (res, statusCode, message) => {
+	// Asegurar que message sea siempre un string
+	const errorMessage =
+		typeof message === 'string' ? message : 'Error en la solicitud';
+
 	return res.status(statusCode).json({
-		statusCode: statusCode,
 		success: false,
-		message,
-		details,
+		message: errorMessage,
 	});
 };
 
-// Errores comunes
-const badRequest = (
-	res,
-	message = ERROR_MESSAGES.DATA_VALIDATION_FAILED,
-	details = null
-) => {
-	return error(res, 400, message, details);
+// Errores comunes - todos envían solo message como string
+const badRequest = (res, message = ERROR_MESSAGES.DATA_VALIDATION_FAILED) => {
+	return error(res, 400, message);
 };
 
-const unauthorized = ({
-	res,
-	message = AUTH_MESSAGES.UNAUTHORIZED,
-	details = null,
-}) => {
-	return error(res, 401, message, details);
+const unauthorized = (res, message = AUTH_MESSAGES.UNAUTHORIZED) => {
+	return error(res, 401, message);
 };
 
-const forbidden = (res, message = AUTH_MESSAGES.FORBIDDEN, details = null) => {
-	return error(res, 403, message, details);
+const forbidden = (res, message = AUTH_MESSAGES.FORBIDDEN) => {
+	return error(res, 403, message);
 };
 
-const notFound = (
-	res,
-	message = ERROR_MESSAGES.RESOURCE_NOT_FOUND,
-	details = null
-) => {
-	return error(res, 404, message, details);
+const notFound = (res, message = ERROR_MESSAGES.RESOURCE_NOT_FOUND) => {
+	return error(res, 404, message);
 };
 
-const conflict = (
-	res,
-	message = 'Conflicto con el estado actual',
-	details = null
-) => {
-	return error(res, 409, message, details);
+const conflict = (res, message = 'Conflicto con el estado actual') => {
+	return error(res, 409, message);
 };
 
 const internalError = (
 	res,
-	message = SERVER_MESSAGES.INTERNAL_SERVER_ERROR,
-	details = null
+	message = SERVER_MESSAGES.INTERNAL_SERVER_ERROR
 ) => {
-	return error(res, 500, message, details);
+	return error(res, 500, message);
 };
 
 // Respuesta de validación
-const validationError = (res, details) => {
-	return badRequest(res, ERROR_MESSAGES.DATA_VALIDATION_FAILED, details);
+const validationError = (
+	res,
+	message = ERROR_MESSAGES.DATA_VALIDATION_FAILED
+) => {
+	return badRequest(res, message);
 };
 
 // Respuesta de paginación

@@ -22,7 +22,7 @@ const getAllOffers = async (req, res, next) => {
 
 		return success(
 			res,
-			SUCCESS_MESSAGES.DATA_FETCHED,
+			SUCCESS_MESSAGES.OFFERS_FETCHED,
 			result.data,
 			result.total,
 			result
@@ -36,7 +36,7 @@ const getOfferById = async (req, res, next) => {
 	try {
 		const { id } = req.params;
 		const offer = await service.findById(id);
-		return success(res, SUCCESS_MESSAGES.DATA_FETCHED, offer);
+		return success(res, SUCCESS_MESSAGES.OFFER_FETCHED, offer);
 	} catch (error) {
 		next(error);
 	}
@@ -45,7 +45,7 @@ const getOfferById = async (req, res, next) => {
 const createOffer = async (req, res, next) => {
 	try {
 		const offer = await service.create(req.body, req.user);
-		return created(res, SUCCESS_MESSAGES.RESOURCE_CREATED, offer);
+		return created(res, SUCCESS_MESSAGES.OFFER_CREATED, offer);
 	} catch (error) {
 		next(error);
 	}
@@ -55,7 +55,7 @@ const updateOffer = async (req, res, next) => {
 	try {
 		const { id } = req.params;
 		const offer = await service.update(id, req.body, req.user);
-		return success(res, SUCCESS_MESSAGES.RESOURCE_UPDATED, offer);
+		return success(res, SUCCESS_MESSAGES.OFFER_UPDATED, offer);
 	} catch (error) {
 		next(error);
 	}
@@ -65,7 +65,7 @@ const deleteOffer = async (req, res, next) => {
 	try {
 		const { id } = req.params;
 		await service.delete(id, req.user);
-		return success(res, SUCCESS_MESSAGES.RESOURCE_DELETED, { id });
+		return success(res, SUCCESS_MESSAGES.OFFER_DELETED, { id });
 	} catch (error) {
 		next(error);
 	}

@@ -6,19 +6,11 @@ function checkJwt() {
 	return (req, res, next) => {
 		passport.authenticate('jwt', { session: false }, (err, user, info) => {
 			if (info && info.name === 'TokenExpiredError') {
-				return unauthorized({
-					res,
-					message: AUTH_MESSAGES.SESSION_EXPIRED,
-					details: `Tu token expiró el ${info.expiredAt}`,
-				});
+				return unauthorized(res, AUTH_MESSAGES.SESSION_EXPIRED);
 			}
 
 			if (!user) {
-				return unauthorized({
-					res,
-					message: AUTH_MESSAGES.UNAUTHORIZED,
-					details: info?.message || 'Token inválido o no proporcionado',
-				});
+				return unauthorized(res, AUTH_MESSAGES.UNAUTHORIZED);
 			}
 
 			req.user = user;

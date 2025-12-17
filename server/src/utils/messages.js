@@ -2,12 +2,41 @@
 
 const SUCCESS_MESSAGES = {
 	// Mensajes de operaciones exitosas
-	RESOURCE_CREATED: 'Recurso creado exitosamente.',
-	RESOURCE_UPDATED: 'Recurso actualizado exitosamente.',
-	RESOURCE_DELETED: 'Recurso eliminado exitosamente.',
-	OPERATION_SUCCESSFUL: 'Operación exitosa.',
-	USER_CREATED: 'Usuario creado exitosamente.',
 	DATA_FETCHED: 'Datos obtenidos exitosamente.',
+	USER_CREATED: 'Usuario creado exitosamente.',
+	USER_FETCHED: 'Usuario obtenido exitosamente.',
+	USER_UPDATED: 'Usuario actualizado exitosamente.',
+	USER_DELETED: 'Usuario eliminado exitosamente.',
+	CATEGORIES_FETCHED: 'Categorías obtenidas exitosamente.',
+	CATEGORIE_FETCHED: 'Categoría obtenida exitosamente.',
+	CATEGORY_CREATED: 'Categoría creada exitosamente.',
+	CATEGORY_UPDATED: 'Categoría actualizada exitosamente.',
+	CATEGORY_DELETED: 'Categoría eliminada exitosamente.',
+	BENEFITS_FETCHED: 'Beneficios obtenidos exitosamente.',
+	BENEFIT_FETCHED: 'Beneficio obtenido exitosamente.',
+	BENEFIT_CREATED: 'Beneficio creado exitosamente.',
+	BENEFIT_UPDATED: 'Beneficio actualizado exitosamente.',
+	BENEFIT_DELETED: 'Beneficio eliminado exitosamente.',
+	BOOKINGS_FETCHED: 'Reservas obtenidas exitosamente.',
+	BOOKING_FETCHED: 'Reserva obtenida exitosamente.',
+	BOOKING_CREATED: 'Reserva creada exitosamente.',
+	BOOKING_UPDATED: 'Reserva actualizada exitosamente.',
+	BOOKING_DELETED: 'Reserva eliminada exitosamente.',
+	DESTINATIONS_FETCHED: 'Destinos obtenidos exitosamente.',
+	DESTINATION_FETCHED: 'Destino obtenido exitosamente.',
+	DESTINATION_CREATED: 'Destino creado exitosamente.',
+	DESTINATION_UPDATED: 'Destino actualizado exitosamente.',
+	DESTINATION_DELETED: 'Destino eliminado exitosamente.',
+	OFFERS_FETCHED: 'Ofertas obtenidas exitosamente.',
+	OFFER_FETCHED: 'Oferta obtenida exitosamente.',
+	OFFER_CREATED: 'Oferta creada exitosamente.',
+	OFFER_UPDATED: 'Oferta actualizada exitosamente.',
+	OFFER_DELETED: 'Oferta eliminada exitosamente.',
+	REVIEWS_FETCHED: 'Reseñas obtenidas exitosamente.',
+	REVIEW_FETCHED: 'Reseña obtenida exitosamente.',
+	REVIEW_CREATED: 'Reseña creada exitosamente.',
+	REVIEW_UPDATED: 'Reseña actualizada exitosamente.',
+	REVIEW_DELETED: 'Reseña eliminada exitosamente.',
 };
 
 const ERROR_MESSAGES = {
@@ -18,7 +47,7 @@ const ERROR_MESSAGES = {
 	INVALID_PARAMETERS: 'Los parámetros de la petición son inválidos.',
 	PERMISSION_DENIED: 'Permiso denegado.',
 	NO_TRIPS_FOUND: 'No se encontraron viajes disponibles.',
-	NO_REQUESTS_FOUND: 'No se encontraron solicitudes'
+	NO_REQUESTS_FOUND: 'No se encontraron solicitudes',
 };
 
 const AUTH_MESSAGES = {

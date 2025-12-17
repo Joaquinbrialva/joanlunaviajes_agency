@@ -49,8 +49,8 @@ const getUserSchema = Joi.object({
 });
 
 const loginUserSchema = Joi.object({
-	email: email.required(),
-	password: password.required(),
+	email: email.required().label('El correo electrónico'),
+	password: password.required().label('La contraseña'),
 });
 
 module.exports = {

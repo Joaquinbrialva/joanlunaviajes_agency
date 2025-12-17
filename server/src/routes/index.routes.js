@@ -5,6 +5,7 @@ const bookingsRouter = require('./bookings.routes');
 const reviewsRouter = require('./reviews.routes');
 const destinationsRouter = require('./destinations.routes');
 const benefitsRouter = require('./benefits.routes');
+const categoriesRouter = require('./categories.routes');
 
 function routerApi(app) {
 	app.use('/api/v1', router);
@@ -14,6 +15,7 @@ function routerApi(app) {
 	router.use('/reviews', reviewsRouter);
 	router.use('/destinations', destinationsRouter);
 	router.use('/benefits', benefitsRouter);
+	router.use('/categories', categoriesRouter);
 }
 
 module.exports = routerApi;

@@ -3,10 +3,34 @@ const ids = require('../../src/utils/seed-ids');
 
 module.exports = {
 	async up(queryInterface) {
+		const origins = [
+			'Buenos Aires (EZE)',
+			'Córdoba (COR)',
+			'Rosario (ROS)',
+			'Mendoza (MDZ)',
+			'Santiago de Chile (SCL)',
+			'Lima (LIM)',
+			'Miami (MIA)',
+			'New York (JFK)',
+			'Los Ángeles (LAX)',
+			'Madrid (MAD)',
+			'Barcelona (BCN)',
+			'Roma (FCO)',
+			'París (CDG)',
+			'Londres (LHR)',
+			'Frankfurt (FRA)',
+			'Dubái (DXB)',
+			'Tokio (NRT)',
+			'Sídney (SYD)',
+			'Toronto (YYZ)',
+			'Ciudad de México (MEX)',
+		];
+
 		const offers = [
 			{
 				id: ids.offers.salta1,
 				title: 'Escapada a Salta – 3 noches',
+				origin: 'Buenos Aires (EZE)',
 				description: 'Incluye hotel céntrico, city tour y traslado aeropuerto.',
 				price: 200000,
 				currency: 'ARS',
@@ -29,6 +53,7 @@ module.exports = {
 			{
 				id: ids.offers.bariloche1,
 				title: 'Bariloche Invernal – 5 noches',
+				origin: 'Córdoba (COR)',
 				description:
 					'Cabañas en el bosque, excursiones y actividades de nieve.',
 				price: 450000,
@@ -52,6 +77,7 @@ module.exports = {
 			{
 				id: ids.offers.iguazu1,
 				title: 'Iguazú – 4 noches + Cataratas',
+				origin: 'Mendoza (MDZ)',
 				description: 'Hotel 4*, visita a cataratas argentinas y brasileñas.',
 				price: 320000,
 				currency: 'ARS',
@@ -74,6 +100,7 @@ module.exports = {
 			{
 				id: ids.offers.ushuaia1,
 				title: 'Ushuaia – 4 noches en el fin del mundo',
+				origin: 'Santiago de Chile (SCL)',
 				description: 'Glaciar Martial + Navegación por el canal Beagle.',
 				price: 390000,
 				currency: 'ARS',
@@ -96,6 +123,7 @@ module.exports = {
 			{
 				id: ids.offers.mendoza1,
 				title: 'Mendoza – Ruta del vino 3 noches',
+				origin: 'Lima (LIM)',
 				description: 'Bodegas + degustación + hotel con pileta.',
 				price: 250000,
 				currency: 'ARS',
@@ -120,6 +148,7 @@ module.exports = {
 			{
 				id: ids.offers.miami1,
 				title: 'Miami Beach – 7 días',
+				origin: 'Miami (MIA)',
 				description: 'Vuelo + hotel + city tour + traslados.',
 				price: 1800,
 				currency: 'USD',
@@ -142,6 +171,7 @@ module.exports = {
 			{
 				id: ids.offers.cancun1,
 				title: 'Cancún – Todo incluido 5 noches',
+				origin: 'New York (JFK)',
 				description: 'Resort frente al mar + actividades acuáticas.',
 				price: 1500,
 				currency: 'USD',
@@ -164,6 +194,7 @@ module.exports = {
 			{
 				id: ids.offers.paris1,
 				title: 'París romántico – 6 noches',
+				origin: 'Los Ángeles (LAX)',
 				description: 'Hotel boutique + crucero por el Sena.',
 				price: 2200,
 				currency: 'USD',
@@ -186,6 +217,7 @@ module.exports = {
 			{
 				id: ids.offers.roma1,
 				title: 'Roma histórica – 6 noches',
+				origin: 'Madrid (MAD)',
 				description: 'Foro Romano, Coliseo, Vaticano y tour gastronómico.',
 				price: 2100,
 				currency: 'USD',
@@ -208,6 +240,7 @@ module.exports = {
 			{
 				id: ids.offers.london1,
 				title: 'Londres – 5 noches',
+				origin: 'Barcelona (BCN)',
 				description: 'Hotel céntrico + transporte + museos.',
 				price: 2300,
 				currency: 'USD',
@@ -230,6 +263,7 @@ module.exports = {
 			{
 				id: ids.offers.rio1,
 				title: 'Río de Janeiro – 5 noches',
+				origin: 'Roma (FCO)',
 				description: 'Copacabana + Pan de Azúcar + Corcovado.',
 				price: 1300,
 				currency: 'USD',
@@ -252,6 +286,7 @@ module.exports = {
 			{
 				id: ids.offers.barcelona1,
 				title: 'Barcelona – 6 noches',
+				origin: 'París (CDG)',
 				description: 'Sagrada Familia, Park Güell y playas.',
 				price: 1900,
 				currency: 'USD',
@@ -274,6 +309,7 @@ module.exports = {
 			{
 				id: ids.offers.santiago1,
 				title: 'Santiago de Chile – 4 noches',
+				origin: 'Londres (LHR)',
 				description: 'Andes + viñedos + city tour.',
 				price: 950,
 				currency: 'USD',
@@ -296,6 +332,7 @@ module.exports = {
 			{
 				id: ids.offers.cusco1,
 				title: 'Cusco + Machu Picchu – 5 días',
+				origin: 'Frankfurt (FRA)',
 				description: 'Hotel 3*, tren a Aguas Calientes y guía experto.',
 				price: 1300,
 				currency: 'USD',
@@ -318,6 +355,7 @@ module.exports = {
 			{
 				id: ids.offers.toronto1,
 				title: 'Toronto – 6 noches',
+				origin: 'Dubái (DXB)',
 				description: 'Niágara Falls + CN Tower + tour nocturno.',
 				price: 2400,
 				currency: 'USD',
@@ -340,6 +378,7 @@ module.exports = {
 			{
 				id: ids.offers.dubai1,
 				title: 'Dubái – 5 noches lujo árabe',
+				origin: 'Tokio (NRT)',
 				description: 'Safari en el desierto + Burj Khalifa + hotel 5*.',
 				price: 3300,
 				currency: 'USD',
@@ -364,6 +403,7 @@ module.exports = {
 			{
 				id: ids.offers.brasilia1,
 				title: 'Brasil – Brasilia + playas del norte',
+				origin: 'Sídney (SYD)',
 				description: 'Hoteles 4* + vuelos internos + excursiones.',
 				price: 1600,
 				currency: 'USD',
@@ -386,6 +426,7 @@ module.exports = {
 			{
 				id: ids.offers.buenosaires1,
 				title: 'Buenos Aires – Paquete turístico 3 noches',
+				origin: 'Toronto (YYZ)',
 				description: 'Tango show, city tour y hotel céntrico.',
 				price: 180000,
 				currency: 'ARS',
