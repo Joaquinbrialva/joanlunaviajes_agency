@@ -1,0 +1,29 @@
+.container {
+	display: flex;
+	align-items: center;
+	position: relative; /* CLAVE */
+	height: 80px;
+}
+
+/* Logo fijo a la izquierda */
+.logo-container {
+	position: absolute;
+	left: 24px;
+}
+
+.logo {
+	border-radius: 8px;
+}
+
+/* Links centrados de verdad */
+.navigation-links {
+	margin: 0 auto; /* CLAVE */
+	display: flex;
+	align-items: center;
+}
+
+/* Toggle fijo a la derecha */
+.theme-toggle {
+	position: absolute;
+	right: 24px;
+}
