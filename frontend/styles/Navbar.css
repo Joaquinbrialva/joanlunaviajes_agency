@@ -1,29 +1,199 @@
-.container {
-	display: flex;
-	align-items: center;
-	position: relative; /* CLAVE */
-	height: 80px;
+/* Navbar Base Styles - Transparent by default */
+.navbar {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	width: 100%;
+	z-index: 1000;
+	background-color: transparent;
+	transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Logo fijo a la izquierda */
-.logo-container {
-	position: absolute;
-	left: 24px;
+/* Navbar Sticky State with Blur Effect */
+.navbar--sticky {
+	position: fixed;
+	backdrop-filter: blur(6px);
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark Mode Support */
+.dark .navbar--sticky {
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* Smooth transition animation */
+.navbar--sticky {
+	animation: fadeInDown 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Fade In Down Animation - More subtle */
+@keyframes fadeInDown {
+	from {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* Navbar Container */
+.navbar-container {
+	display: grid;
+	grid-template-columns: 1fr auto 1fr;
+	align-items: center;
+	max-width: 1400px;
+	margin: 0 auto;
+	padding: 1rem 2rem;
+	gap: 2rem;
+	width: 100%;
+}
+
+/* Navbar Logo */
+.navbar-logo {
+	display: flex;
+	align-items: center;
+	justify-self: start;
+}
+
+.logo-link {
+	display: flex;
+	align-items: center;
+	text-decoration: none;
 }
 
 .logo {
-	border-radius: 8px;
+	height: 50px;
+	width: auto;
+	min-width: 200px;
+	transition: opacity 0.2s ease, transform 0.2s ease;
+	display: block;
 }
 
-/* Links centrados de verdad */
-.navigation-links {
-	margin: 0 auto; /* CLAVE */
+/* Navbar Navigation */
+.navbar-navigation {
 	display: flex;
 	align-items: center;
+	justify-content: center;
+	justify-self: center;
 }
 
-/* Toggle fijo a la derecha */
-.theme-toggle {
+/* Navigation Menu Items */
+.navbar-navigation a {
+	color: var(--foreground);
+	text-decoration: none;
+	font-weight: 500;
+	position: relative;
+	padding: 0.5rem 1rem;
+	border-radius: 0.375rem;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	display: inline-block;
+}
+
+/* Underline effect */
+.navbar-navigation a::after {
+	content: '';
 	position: absolute;
-	right: 24px;
+	bottom: 0.25rem;
+	left: 50%;
+	width: 0;
+	height: 2px;
+	background-color: var(--foreground);
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	transform: translateX(-50%);
+	opacity: 0;
+}
+
+/* Hover state - Light mode */
+.navbar-navigation a:hover {
+	background-color: rgba(0, 0, 0, 0.05);
+	color: var(--foreground);
+	transform: translateY(-1px);
+}
+
+.navbar-navigation a:hover::after {
+	width: calc(100% - 2rem);
+	opacity: 1;
+}
+
+/* Hover state - Dark mode */
+.dark .navbar-navigation a:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .navbar-navigation a::after {
+	background-color: var(--foreground);
+}
+
+/* Navbar Actions */
+.navbar-actions {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 1rem;
+	justify-self: end;
+}
+
+/* Botón de iniciar sesión - efecto vidrio */
+.navbar-actions button[data-variant='outline'],
+.navbar-actions a[data-variant='outline'] {
+	background-color: transparent;
+	border-color: rgba(0, 0, 0, 0.1);
+	backdrop-filter: blur(10px);
+}
+
+.dark .navbar-actions button[data-variant='outline'],
+.dark .navbar-actions a[data-variant='outline'] {
+	border-color: rgba(255, 255, 255, 0.15);
+}
+
+.navbar-actions button[data-variant='outline']:hover,
+.navbar-actions a[data-variant='outline']:hover {
+	background-color: rgba(0, 0, 0, 0.05);
+	border-color: rgba(0, 0, 0, 0.15);
+}
+
+.dark .navbar-actions button[data-variant='outline']:hover,
+.dark .navbar-actions a[data-variant='outline']:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+	border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+	.navbar-container {
+		padding: 1rem;
+		gap: 1rem;
+	}
+
+	.navbar-navigation {
+		display: none;
+	}
+}
+
+@media (max-width: 640px) {
+	.navbar-container {
+		padding: 0.75rem 1rem;
+	}
+
+	.navbar-actions {
+		gap: 0.5rem;
+	}
+}
+
+/* Smooth Scroll Behavior */
+html {
+	scroll-behavior: smooth;
+}
+
+/* Improved Transitions */
+.navbar,
+.navbar--sticky {
+	transition: background-color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+		backdrop-filter 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+		box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+		border-color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }

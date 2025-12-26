@@ -1,7 +1,8 @@
 'use client';
+
 import '@/styles/Navbar.css';
 import Link from 'next/link';
-import logo from '@/public/logo.png';
+import { useEffect, useState } from 'react';
 import {
 	NavigationMenu,
 	NavigationMenuItem,
@@ -10,47 +11,66 @@ import {
 	navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { ModeToggle } from './ui/mode-toggle';
-import Image from 'next/image';
+import { Logo } from '@/components/Logo';
+import { Button } from '@/components/ui/button';
 
 export default function Navbar() {
+	const [isSticky, setIsSticky] = useState(false);
+
+	useEffect(() => {
+		const handleScroll = () => {
+			const triggerPoint = 64;
+			setIsSticky(window.scrollY > triggerPoint);
+		};
+
+		window.addEventListener('scroll', handleScroll);
+		return () => window.removeEventListener('scroll', handleScroll);
+	}, []);
+	const navbarItems = [
+		{
+			item: 'Ofertas',
+			href: '#',
+		},
+		{
+			item: 'Destino',
+			href: '#',
+		},
+		{
+			item: 'Contacto',
+			href: '#',
+		},
+	];
+
 	return (
-		<div className='container'>
-			<div className='logo-container'>
-				<Image src={logo} alt='logo' width={180} className='logo' />
+		<nav className={`navbar ${isSticky ? 'navbar--sticky' : ''}`}>
+			<div className='navbar-container'>
+				<div className='navbar-logo'>
+					<Link href='/' className='logo-link'>
+						<Logo className='logo' />
+					</Link>
+				</div>
+
+				<div className='navbar-navigation'>
+					<NavigationMenu>
+						<NavigationMenuList>
+							{navbarItems.map(({ item, href }) => (
+								<NavigationMenuItem key={item}>
+									<NavigationMenuLink asChild>
+										<Link href={href}>{item}</Link>
+									</NavigationMenuLink>
+								</NavigationMenuItem>
+							))}
+						</NavigationMenuList>
+					</NavigationMenu>
+				</div>
+
+				<div className='navbar-actions'>
+					<Button variant='outline' asChild>
+						<Link href='/login'>Iniciar sesión</Link>
+					</Button>
+					<ModeToggle />
+				</div>
 			</div>
-			<div className='navigation-links'>
-				<NavigationMenu>
-					<NavigationMenuList>
-						<NavigationMenuItem>
-							<NavigationMenuLink
-								asChild
-								className={navigationMenuTriggerStyle()}
-							>
-								<Link href='#'>Ofertas</Link>
-							</NavigationMenuLink>
-						</NavigationMenuItem>
-						<NavigationMenuItem>
-							<NavigationMenuLink
-								asChild
-								className={navigationMenuTriggerStyle()}
-							>
-								<Link href='#'>Destinos</Link>
-							</NavigationMenuLink>
-						</NavigationMenuItem>
-						<NavigationMenuItem>
-							<NavigationMenuLink
-								asChild
-								className={navigationMenuTriggerStyle()}
-							>
-								<Link href='#'>Contacto</Link>
-							</NavigationMenuLink>
-						</NavigationMenuItem>
-					</NavigationMenuList>
-				</NavigationMenu>
-			</div>
-			<div className='theme-toggle'>
-				<ModeToggle />
-			</div>
-		</div>
+		</nav>
 	);
 }

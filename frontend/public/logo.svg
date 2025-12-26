@@ -1,0 +1,45 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="80 0 400 80"
+  width="400"
+  height="80"
+  role="img"
+  aria-label="Joanluna Viajes"
+>
+
+  <!-- Línea sutil -->
+  <line
+    x1="95"
+    y1="20"
+    x2="95"
+    y2="65"
+    stroke="currentColor"
+    stroke-width="2"
+    opacity="0.5"
+  />
+
+  <!-- Nombre -->
+  <text
+    x="110"
+    y="48"
+    font-size="36"
+    font-weight="600"
+    font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif"
+    fill="currentColor"
+  >
+    Joanluna
+  </text>
+
+  <!-- Submarca -->
+  <text
+    x="110"
+    y="68"
+    font-size="14"
+    letter-spacing="3"
+    font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif"
+    fill="currentColor"
+    opacity="0.75"
+  >
+    VIAJES
+  </text>
+</svg>
