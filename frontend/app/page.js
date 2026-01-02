@@ -1,5 +1,6 @@
 import Hero from '@/components/Hero';
-import CardSection from '@/components/ui/CardSection';
+import CardSection from '@/components/CardSection';
+import Footer from '@/components/Footer';
 
 export default function Home() {
 	return (
@@ -7,6 +8,7 @@ export default function Home() {
 			<main>
 				<Hero />
 				<CardSection />
+				<Footer />
 			</main>
 		</div>
 	);
