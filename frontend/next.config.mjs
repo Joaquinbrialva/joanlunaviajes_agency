@@ -6,6 +6,14 @@ const nextConfig = {
 				protocol: 'https',
 				hostname: 'picsum.photos',
 			},
+			{
+				protocol: 'https',
+				hostname: 'heroui.com',
+			},
+			{
+				protocol: 'https',
+				hostname: 'images.unsplash.com',
+			},
 		],
 	},
 };
