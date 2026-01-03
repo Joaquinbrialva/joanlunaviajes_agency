@@ -1,8 +1,5 @@
 .section-container {
 	padding: 2rem;
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-	gap: 1.5rem;
 	width: 90%;
 	margin: auto;
 }
@@ -10,10 +7,22 @@
 .section-header {
 	display: flex;
 	justify-content: space-between;
-	grid-column: 1 / -1;
+	margin-bottom: 1.5rem;
 }
 
 .section-title h3 {
 	font-size: 1.8rem;
 	font-weight: 600;
+}
+
+.cards {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	gap: 1.5rem;
+}
+
+.destiny-section {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	gap: 1.5rem;
 }

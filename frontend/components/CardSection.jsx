@@ -4,37 +4,48 @@ import Card from './Card';
 import { FaChevronRight } from 'react-icons/fa6';
 import { generateTrips } from '@/mocks/mockTrips';
 import DestinyCard from './DestinyCard';
+
 export default function CardSection() {
-	const trips = generateTrips(12);
+	const trips = generateTrips(6);
+
 	return (
-		<>
-			<div className='section-container'>
-				<div className='section-header'>
-					<div className='section-title'>
-						<h3>Mejores Ofertas Destacadas</h3>
-					</div>
-					<div className='section-arrow'>
-						<Button>
-							Ver todas las ofertas
-							<FaChevronRight />
-						</Button>
-					</div>
+		<div className='section-container'>
+			<div className='section-header'>
+				<div className='section-title'>
+					<h3>Mejores Ofertas Destacadas</h3>
 				</div>
-				{trips.map((trips) => (
+				<div className='section-arrow'>
+					<Button>
+						Ver todas las ofertas
+						<FaChevronRight />
+					</Button>
+				</div>
+			</div>
+			<div className="cards">
+				{trips.map((trip) => (
 					<Card
-						key={trips.id}
-						title={trips.title}
-						location={trips.location}
-						days={trips.days}
-						rating={trips.rating}
-						price={trips.price}
-						image={trips.image}
-						discount={trips.discount}
-						categories={trips.category}
+						key={trip.id}
+						title={trip.title}
+						location={trip.location}
+						days={trip.days}
+						rating={trip.rating}
+						price={trip.price}
+						image={trip.image}
+						discount={trip.discount}
+						categories={trip.category}
 					/>
 				))}
-				<DestinyCard />
 			</div>
-		</>
+			{/* Implementar carousel */}
+			<div className="destiny-section">
+				{trips.map((destiny) => (
+					<DestinyCard
+						key={destiny.id}
+						location={destiny.location}
+						price={destiny.price}
+					/>
+				))}
+			</div>
+		</div>
 	);
 }
