@@ -1,4 +1,6 @@
-.destiny-card-container {
+/* DestinyCard.css */
+
+.card-destiny-container {
 	position: relative;
 	width: 330px;
 	height: 400px;
@@ -8,36 +10,32 @@
 	transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.destiny-card-image {
+.card-destiny-image {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
 }
 
-.destiny-card-overlay {
+.card-destiny-overlay {
 	position: absolute;
-	bottom: 0;
 	left: 0;
-	right: 0;
-	display: flex;
-	align-items: flex-end;
-	justify-content: space-between;
+	width: 100%;
+	bottom: 0;
 	padding: 20px;
 	background: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, transparent 100%);
 }
 
-.destiny-card-info {
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
-}
-
-.destiny-card-separator {
+.card-destiny-footer {
 	width: 100%;
-	background-color: var(--separator);
 }
 
-.destiny-card-title {
+.card-destiny-separator {
+	width: 100%;
+	height: 1px;
+	background-color: #ffffff;
+}
+
+.card-destiny-title {
 	font-size: 1.5rem;
 	font-weight: 700;
 	color: white;
@@ -46,22 +44,27 @@
 	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.destiny-card-price {
+.card-destiny-actions {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 10px;
+}
+
+.card-destiny-price {
 	font-size: 1rem;
 	font-weight: 500;
-	color: white;
-	margin: 0;
-	line-height: 1.2;
+	color: #ffffff;
 	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 /* Responsive styles */
 @media (min-width: 640px) {
-	.destiny-card-title {
+	.card-destiny-title {
 		font-size: 1.75rem;
 	}
 
-	.destiny-card-price {
+	.card-destiny-price {
 		font-size: 1.125rem;
 	}
 }
