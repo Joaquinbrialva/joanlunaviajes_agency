@@ -1,10 +1,11 @@
 import Image from 'next/image';
 import '@/styles/DestinyCard.css';
 import { Button, Separator } from '@heroui/react';
+import { ARPeso } from '@/lib/utils';
 
 export default function DestinyCard({
 	location = 'París, Francia',
-	price = 'Desde $899',
+	price = '899',
 	image,
 }) {
 	return (
@@ -28,7 +29,7 @@ export default function DestinyCard({
 							<Separator className='card-destiny-separator' />
 						</div>
 						<div className='card-destiny-actions'>
-							<div className='card-destiny-price'>{price}</div>
+							<div className='card-destiny-price'>{`Desde ${ARPeso(price)}`}</div>
 							<Button>Ver</Button>
 						</div>
 					</div>
