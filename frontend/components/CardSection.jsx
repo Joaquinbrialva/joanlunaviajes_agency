@@ -6,7 +6,7 @@ export default function CardSection({
 	title,
 	arrow = true,
 	variant = 'grid',
-	children
+	children,
 }) {
 	return (
 		<div className='section-container'>
@@ -14,19 +14,16 @@ export default function CardSection({
 				<div className='section-title'>
 					<h3>{title}</h3>
 				</div>
-				{arrow && (<div className='section-arrow'>
-					<Button>
-						Ver todas
-						<FaChevronRight />
-					</Button>
-				</div>)
-				}
+				{arrow && (
+					<div className='section-arrow'>
+						<Button>
+							Ver todas
+							<FaChevronRight />
+						</Button>
+					</div>
+				)}
 			</div>
-			{variant === 'grid' ? (
-				<div className="cards">{children}</div>
-			) : (
-				children
-			)}
+			{variant === 'grid' ? <div className='cards'>{children}</div> : children}
 		</div>
 	);
 }
