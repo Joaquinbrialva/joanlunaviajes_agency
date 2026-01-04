@@ -5,6 +5,7 @@ import Card from '@/components/Card';
 import { generateTrips } from '@/mocks/mockTrips';
 import DestinyCard from '@/components/DestinyCard';
 import { CarouselDemo } from '@/components/Carousel';
+import NewsletterSection from '@/components/NewsletterSection';
 
 export default function Home() {
 	const trips = generateTrips(10)
@@ -20,6 +21,7 @@ export default function Home() {
 				<CardSection title='Próximos Viajes' variant='carousel'>
 					<CarouselDemo />
 				</CardSection>
+				<NewsletterSection />
 				<Footer />
 			</main>
 		</div>
